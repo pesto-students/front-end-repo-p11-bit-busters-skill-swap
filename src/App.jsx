@@ -1,10 +1,13 @@
 import { Button } from "keep-react";
+import AppRouter from "./components/AppRouter/AppRouter";
 
 const App = () => {
     return (
-        <>
-            <Button size="md">Default</Button>
-        </>
+        <div>
+            {/* <Provider store={store}> */}
+                <AppRouter />
+            {/* </Provider> */}
+        </div>
     );
 }
 
