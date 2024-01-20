@@ -1,25 +1,46 @@
 import { Button, Typography } from "keep-react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Logo from "../../assets/logo.png";
 import TextInputComponent from "../../components/FormElements/TextInputComponent";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import generateUrl from "../../utils/routes";
 import { Lock } from "phosphor-react";
+import { registerUser } from "../../redux/actions/authAction";
+import Loader from "../../components/Loader/Loader";
+import { connect } from "react-redux";
+import Swal from "sweetalert2";
 
-const Register = () => {
-    const handleSubmit = (e) => {
-        console.log(e);
+const Register = ({ auth, registerUser }) => {
+    const navigate = useNavigate();
+    const [formData, setFormData] = useState({
+        name: "",
+        email: "",
+        password: "",
+        confirm_password: "",
+    });
+
+    const handleOnChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
     };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        registerUser(formData, (response) => {
+            Swal.fire("Success", response.message, "success").then(() => {
+                navigate("/");
+            });
+        });
+    };
+
     return (
         <div className="h-screen w-screen flex items-center justify-center">
             <div className="w-full px-6 md:w-1/2 lg:w-1/3 xl:w-1/4">
                 <div className="flex flex-col items-center gap-4">
-                    <Typography
-                        variant="heading-6"
-                        className="text-center font-semibold tracking-widest"
-                    >
-                        Skill Swap
-                    </Typography>
+                    <Logo />
                     <Typography variant="paragraph-3" className="text-center">
                         Please enter your details to create an account.
                     </Typography>
@@ -32,10 +53,9 @@ const Register = () => {
                                 name="name"
                                 placeholder="Name"
                                 label="Name *"
-                                handleOnChange={(e) => {
-                                    console.log(e);
-                                }}
-                                value="aa"
+                                handleOnChange={handleOnChange}
+                                value={formData.name}
+                                error={auth?.errors?.name?.message}
                             />
                         </div>
                         <div className="mb-4">
@@ -44,10 +64,9 @@ const Register = () => {
                                 name="email"
                                 placeholder="Email"
                                 label="Email *"
-                                handleOnChange={(e) => {
-                                    console.log(e);
-                                }}
-                                value="aa"
+                                handleOnChange={handleOnChange}
+                                value={formData.email}
+                                error={auth?.errors?.email?.message}
                             />
                         </div>
                         <div className="mb-4">
@@ -56,14 +75,13 @@ const Register = () => {
                                 name="password"
                                 placeholder="Password"
                                 label="Password *"
-                                handleOnChange={(e) => {
-                                    console.log(e);
-                                }}
-                                value="aa"
+                                handleOnChange={handleOnChange}
+                                value={formData.password}
                                 type="password"
                                 addon={<Lock size={20} />}
                                 addonPosition="left"
                                 addonStyle="text-slate-500"
+                                error={auth?.errors?.password?.message}
                             />
                         </div>
                         <div className="mb-4">
@@ -72,18 +90,18 @@ const Register = () => {
                                 name="confirm_password"
                                 placeholder="Confirm Password"
                                 label="Confirm Password *"
-                                handleOnChange={(e) => {
-                                    console.log(e);
-                                }}
-                                value="aa"
+                                handleOnChange={handleOnChange}
+                                value={formData.confirm_password}
                                 type="password"
                                 addon={<Lock size={20} />}
                                 addonPosition="left"
                                 addonStyle="text-slate-500"
+                                error={auth?.errors?.confirm_password?.message}
                             />
                         </div>
                     </div>
                     <div className="mb-4">
+                        <button type="submit" className="hidden" />
                         <Button
                             size="md"
                             type="primary"
@@ -109,8 +127,17 @@ const Register = () => {
                     </div>
                 </form>
             </div>
+            <Loader loading={auth.loading} />
         </div>
     );
 };
 
-export default Register;
+const mapStateToProps = (state) => ({
+    auth: state.auth,
+});
+
+const mapDispatchToProps = {
+    registerUser,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register);

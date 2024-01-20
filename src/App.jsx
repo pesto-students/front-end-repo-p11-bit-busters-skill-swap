@@ -1,12 +1,13 @@
-import { Button } from "keep-react";
+import { Provider } from "react-redux";
 import AppRouter from "./components/AppRouter/AppRouter";
+import store from "./redux/store";
 
 const App = () => {
     return (
         <div>
-            {/* <Provider store={store}> */}
+            <Provider store={store}>
                 <AppRouter />
-            {/* </Provider> */}
+            </Provider>
         </div>
     );
 }

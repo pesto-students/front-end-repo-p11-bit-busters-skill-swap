@@ -1,21 +1,31 @@
 import Loader from "../Loader/Loader";
+import { getAuthUserProfile } from "../../redux/actions/authAction";
+import { connect } from "react-redux";
+import { useEffect } from "react";
+import { Navigate, Outlet } from "react-router-dom";
 
-const PrivateRoute = ({ element, ...rest }) => {
-    // const dispatch = useDispatch();
-    // const userLoginData = useSelector((state) => state.user);
+const PrivateRoute = ({ auth, getAuthUserProfile, element, ...rest }) => {
+    useEffect(() => {
+        getAuthUserProfile();
+    }, []);
 
-    // useEffect(() => {
-    //     dispatch(userProfile());
-    // }, [dispatch]);
-
-    // const isLoggedIn = userLoginData.isLoggedIn;
-    // if (isLoggedIn === true) {
-        return <Outlet />;
-    // } else if (isLoggedIn === false) {
-    //     return <Navigate to={"/login"} />;
-    // }
+    const isLoggedIn = auth.isLoggedIn;
+    if (isLoggedIn === true) {
+    return <Outlet />;
+    } else if (isLoggedIn === false) {
+        return <Navigate to={"/login"} />;
+    }
 
     return <Loader loading={true} />;
 };
 
-export default PrivateRoute;
+
+const mapStateToProps = (state) => ({
+    auth: state.auth,
+});
+
+const mapDispatchToProps = {
+    getAuthUserProfile,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(PrivateRoute);
