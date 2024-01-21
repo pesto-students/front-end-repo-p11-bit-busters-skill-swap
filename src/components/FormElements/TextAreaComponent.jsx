@@ -1,14 +1,14 @@
-import { Label, TextInput } from "keep-react";
+import { Label, Textarea } from "keep-react";
 import { twMerge } from "tailwind-merge";
 
-const TextInputComponent = ({
+const TextAreaComponent = ({
     id,
     name,
     placeholder,
     label,
-    handleOnChange,
     error,
     value,
+    className,
     containerClassName,
     ...rest
 }) => {
@@ -19,18 +19,18 @@ const TextInputComponent = ({
                 value={label}
                 color={error ? "error" : "gray"}
             />
-            <TextInput
+            <Textarea
                 id={id}
                 name={name}
                 placeholder={placeholder}
                 color={error ? "error" : "gray"}
-                handleOnChange={handleOnChange}
                 helperText={error ? error : ""}
                 value={value}
+                className={twMerge("text-sm", className)}
                 {...rest}
             />
         </div>
     );
 };
 
-export default TextInputComponent;
+export default TextAreaComponent;

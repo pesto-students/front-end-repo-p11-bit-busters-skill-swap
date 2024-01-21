@@ -12,6 +12,10 @@ export const AUTH_USER_PROFILE_REQUEST = "AUTH_USER_PROFILE_REQUEST";
 export const AUTH_USER_PROFILE_SUCCESS = "AUTH_USER_PROFILE_SUCCESS";
 export const AUTH_USER_PROFILE_FAILURE = "AUTH_USER_PROFILE_FAILURE";
 
+export const UPDATE_USER_PROFILE_REQUEST = "UPDATE_USER_PROFILE_REQUEST";
+export const UPDATE_USER_PROFILE_SUCCESS = "UPDATE_USER_PROFILE_SUCCESS";
+export const UPDATE_USER_PROFILE_FAILURE = "UPDATE_USER_PROFILE_FAILURE";
+
 export const loginUser = (data, successCallback) => {
     return async (dispatch) => {
         const url = `auth/login`;
@@ -68,6 +72,25 @@ export const getAuthUserProfile = (successCallback) => {
         } 
 
         await apiCall(dispatch, "GET", url, {}, actionTypes, successCallback, headers);
+    };
+};
+
+export const updateUserProfile = (data, successCallback) => {
+    return async (dispatch) => {
+        const url = `user/profile`;
+        const actionTypes = {
+            REQUEST: UPDATE_USER_PROFILE_REQUEST,
+            SUCCESS: UPDATE_USER_PROFILE_SUCCESS,
+            FAILURE: UPDATE_USER_PROFILE_FAILURE,
+        };
+        const token = localStorage.getItem("access_token");
+        const headers = {
+            headers: {
+                Authorization: `${token}`,
+            },
+        } 
+
+        await apiCall(dispatch, "POST", url, data, actionTypes, successCallback, headers);
     };
 };
 

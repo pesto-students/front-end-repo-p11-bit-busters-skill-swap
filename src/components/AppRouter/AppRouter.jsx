@@ -7,6 +7,7 @@ import Login from "../../pages/Login/Login";
 import generateUrl from "../../utils/routes";
 import Register from "../../pages/Register/Register";
 import AppLayout from "../AppLayout/AppLayout";
+import EditProfile from "../../pages/EditProfile/EditProfile";
 
 const AppRouter = () => {
     return (
@@ -20,7 +21,8 @@ const AppRouter = () => {
                 />
                 <Route element={<PrivateRoute />}>
                     <Route element={<AppLayout />}>
-                        <Route exact path="/" element={< > aaa</>} />
+                        <Route exact path={generateUrl('dashboard')} element={<> aaa</>} />
+                        <Route exact path={generateUrl('profile')} element={<EditProfile />} />
                         {/* <Route exact path="/" element={<Dashboard />} />
                         <Route
                             exact

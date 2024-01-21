@@ -4,6 +4,7 @@ const routes = {
     dashboard: "/",
     login: "/login",
     register: "/register",
+    profile: "/profile",
 };
 
 const generateUrl = (routeName, params = {}) => {

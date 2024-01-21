@@ -1,21 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Dropdown, Navbar } from "keep-react";
+import { Avatar, Card, Dropdown, Navbar } from "keep-react";
 import { Sidebar } from "keep-react";
-import {
-    SquaresFour,
-    User,
-    MapPinLine,
-    DesktopTower,
-    CurrencyCircleDollar,
-    ChartLineUp,
-    ArrowLeft,
-    List,
-    SignOut,
-} from "phosphor-react";
-import { Outlet, useLocation } from "react-router-dom";
+import { User, MapPinLine, ArrowLeft, List, SignOut } from "phosphor-react";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 import { logout } from "../../redux/actions/authAction";
 import Logo from "../Logo/Logo";
+import generateUrl from "../../utils/routes";
 
 const menu = [
     {
@@ -46,15 +37,19 @@ const AppLayout = ({ user, logout }) => {
     };
     return (
         <div>
-            <NavbarComponent logout={logout} toggleSidebar={toggleSidebar} />
-            <div className="lg:grid lg:grid-cols-[280px_auto]">
+            <NavbarComponent
+                logout={logout}
+                toggleSidebar={toggleSidebar}
+                user={user}
+            />
+            <div className="lg:grid">
                 <SidebarComponent
                     user={user?.user}
                     toggleSidebar={toggleSidebar}
                     sidebarOpen={sidebarOpen}
                     logout={logout}
                 />
-                <main className="p-4 lg:p-8">
+                <main className="w-full">
                     <Outlet />
                 </main>
             </div>
@@ -62,12 +57,14 @@ const AppLayout = ({ user, logout }) => {
     );
 };
 
-const NavbarComponent = ({ logout, toggleSidebar }) => {
+const NavbarComponent = ({ logout, toggleSidebar, user }) => {
     return (
-        <Navbar fluid={true} className="bg-header_background sticky top-0">
+        <Navbar fluid={true} className="bg-header_background sticky top-0 z-50">
             <Navbar.Container className="flex items-center justify-between px-0 lg:px-12 py-2">
                 <Navbar.Brand className="text-xl font-medium">
-                    <Logo showImageLogo={true} />
+                    <Link to={generateUrl("dashboard")}>
+                        <Logo showImageLogo={true} />
+                    </Link>
                 </Navbar.Brand>
 
                 <Navbar.Collapse
@@ -91,17 +88,65 @@ const NavbarComponent = ({ logout, toggleSidebar }) => {
                         className="lg:flex hidden items-center justify-between gap-5"
                     >
                         <Dropdown
-                            label={<User size={20} color="#444" />}
+                            label={
+                                <Avatar
+                                    size="md"
+                                    shape="circle"
+                                    img={`${
+                                        user.user.profile_image ||
+                                        "https://randomuser.me/api/portraits/men/11.jpg"
+                                    }`}
+                                />
+                            }
                             size="sm"
                             type="linkPrimary"
-                            dismissOnClick={true}
                             arrowIcon={false}
                             className="bg-transparent hover:bg-transparent"
                         >
-                            <Dropdown.Item>
-                                <button onClick={logout}>Logout</button>
+                            <Card className="max-w-xs px-6 py-4 md:max-w-lg rounded-none border-t-0 border-x-0 border-b border-metal-50">
+                                <Card.Container className="flex items-center">
+                                    <Avatar
+                                        size="lg"
+                                        shape="circle"
+                                        img={`${
+                                            user.user.profile_image ||
+                                            "https://randomuser.me/api/portraits/men/11.jpg"
+                                        }`}
+                                    />
+                                    <Card.Container className="ml-3">
+                                        <Card.Title className="text-body-5 font-semibold text-metal-800 md:text-body-4">
+                                            {user.user.name}
+                                        </Card.Title>
+                                        <Card.Title className="!text-body-6 font-normal text-metal-400 md:text-body-5">
+                                            {
+                                                user.user
+                                                    .professional_information
+                                                    .role
+                                            }
+                                        </Card.Title>
+                                    </Card.Container>
+                                </Card.Container>
+                            </Card>
+                            <Dropdown.Item
+                                icon={
+                                    <Link to={generateUrl("profile")}>
+                                        <User size={20} color="#444" />
+                                    </Link>
+                                }
+                            >
+                                <Link
+                                    to={generateUrl("profile")}
+                                    className="w-full"
+                                >
+                                    Profile
+                                </Link>
                             </Dropdown.Item>
-                            {/* <Dropdown.Item>Profile</Dropdown.Item> */}
+                            <Dropdown.Item
+                                icon={<SignOut size={20} />}
+                                onClick={logout}
+                            >
+                                Logout
+                            </Dropdown.Item>
                         </Dropdown>
                     </Navbar.Container>
                 </Navbar.Container>

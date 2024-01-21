@@ -8,6 +8,9 @@ import {
     AUTH_USER_PROFILE_REQUEST,
     AUTH_USER_PROFILE_SUCCESS,
     AUTH_USER_PROFILE_FAILURE,
+    UPDATE_USER_PROFILE_REQUEST,
+    UPDATE_USER_PROFILE_SUCCESS,
+    UPDATE_USER_PROFILE_FAILURE,
 } from "../actions/authAction";
 
 const initialState = {
@@ -91,7 +94,28 @@ const authReducer = (state = initialState, action) => {
             return {
                 ...state,
                 loading: false,
-                isLoggedIn: false,
+                successMessage: "",
+                errors: action.payload.errors,
+            };
+        case UPDATE_USER_PROFILE_REQUEST:
+            return {
+                ...state,
+                loading: true,
+                successMessage: "",
+                errors: {},
+            };
+        case UPDATE_USER_PROFILE_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                successMessage: action.payload.message,
+                user: action.payload.data.user,
+                errors: {},
+            };
+        case UPDATE_USER_PROFILE_FAILURE:
+            return {
+                ...state,
+                loading: false,
                 successMessage: "",
                 errors: action.payload.errors,
             };
