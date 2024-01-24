@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import Error404 from "../Errors/Error404";
-import PrivateRoute from "../Middlewares/PrivateRoute";
+import PrivateRoute from "../middlewares/PrivateRoute";
 import Login from "../../pages/Login/Login";
 import generateUrl, { routes } from "../../utils/routes";
 import Register from "../../pages/Register/Register";
