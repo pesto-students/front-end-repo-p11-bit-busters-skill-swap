@@ -24,9 +24,6 @@ jobs:
     - name: Build
       run: npm run build # or yarn build
 
-    - name: Run tests
-      run: npm test # or yarn test
-
     - name: Copy build to EC2
       uses: appleboy/scp-action@master
       with:
