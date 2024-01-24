@@ -1,10 +1,11 @@
 import { generatePath } from "react-router-dom";
 
-const routes = {
+export const routes = {
     dashboard: "/",
     login: "/login",
     register: "/register",
     profile: "/profile",
+    user_profile: "/profile/:user_id",
 };
 
 const generateUrl = (routeName, params = {}) => {

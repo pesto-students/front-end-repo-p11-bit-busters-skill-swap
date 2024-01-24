@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Avatar, Card, Dropdown, Navbar } from "keep-react";
 import { Sidebar } from "keep-react";
-import { User, MapPinLine, ArrowLeft, List, SignOut } from "phosphor-react";
+import {
+    User,
+    MapPinLine,
+    ArrowLeft,
+    List,
+    SignOut,
+    MagnifyingGlass,
+} from "phosphor-react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 import { logout } from "../../redux/actions/authAction";
@@ -12,8 +19,8 @@ const menu = [
     {
         id: "home",
         label: "Home",
-        link: "/",
-        icon: <User size={24} />,
+        link: generateUrl("dashboard"),
+        icon: <MagnifyingGlass size={24} />,
     },
     {
         id: "message",
@@ -36,7 +43,7 @@ const AppLayout = ({ user, logout }) => {
         setSidebarOpen(!sidebarOpen);
     };
     return (
-        <div>
+        <div className="bg-slate-100 min-h-screen">
             <NavbarComponent
                 logout={logout}
                 toggleSidebar={toggleSidebar}
@@ -61,26 +68,29 @@ const NavbarComponent = ({ logout, toggleSidebar, user }) => {
     return (
         <Navbar fluid={true} className="bg-header_background sticky top-0 z-50">
             <Navbar.Container className="flex items-center justify-between px-0 lg:px-12 py-2">
-                <Navbar.Brand className="text-xl font-medium">
-                    <Link to={generateUrl("dashboard")}>
-                        <Logo showImageLogo={true} />
-                    </Link>
-                </Navbar.Brand>
-
-                <Navbar.Collapse
-                    collapseType="sidebar"
-                    className="bg-header_background "
+                <Navbar.Container
+                    tag="div"
+                    className="flex items-center justify-between gap-8"
                 >
-                    <Navbar.Container tag="ul" className="flex flex-col gap-5">
-                        {menu.map((item) => (
+                    <Navbar.Brand className="text-xl font-medium">
+                        <Link to={generateUrl("dashboard")}>
+                            <Logo showImageLogo={true} />
+                        </Link>
+                    </Navbar.Brand>
+                    <Navbar.Divider></Navbar.Divider>
+                    <Navbar.Container
+                        tag="ul"
+                        className="lg:flex hidden items-start justify-between gap-8"
+                    >
+                        {menu.map((link) => (
                             <Navbar.Link
-                                linkName={item.label}
-                                href={item.link}
-                                key={item.id}
+                                linkName={link.label}
+                                href={link.link}
+                                key={link.id}
                             />
                         ))}
                     </Navbar.Container>
-                </Navbar.Collapse>
+                </Navbar.Container>
 
                 <Navbar.Container className="flex items-center gap-3">
                     <Navbar.Container
@@ -186,22 +196,23 @@ const SidebarComponent = ({ user, toggleSidebar, sidebarOpen, logout }) => {
                 }}
             >
                 <Sidebar.ItemGroup className="bg-header_background">
-                    {menu
-                        .filter(
-                            (item) =>
-                                (item.only_for_admin && user.is_admin) ||
-                                !item.only_for_admin
-                        )
-                        .map((item) => (
-                            <Sidebar.Item
-                                href={item.link}
-                                icon={item.icon}
-                                key={item.id}
-                                active={location.pathname === item.link}
-                            >
-                                {item.label}
-                            </Sidebar.Item>
-                        ))}
+                    {menu?.map((item) => (
+                        <Sidebar.Item
+                            href={item.link}
+                            icon={item.icon}
+                            key={item.id}
+                            active={location.pathname === item.link}
+                        >
+                            {item.label}
+                        </Sidebar.Item>
+                    ))}
+                    <Sidebar.Item
+                        icon={<User size={24} />}
+                        onClick={logout}
+                        className="lg:hidden cursor-pointer"
+                    >
+                        Profile
+                    </Sidebar.Item>
                     <Sidebar.Item
                         icon={<SignOut size={24} />}
                         onClick={logout}

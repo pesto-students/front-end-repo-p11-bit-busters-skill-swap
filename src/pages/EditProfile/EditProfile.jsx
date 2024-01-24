@@ -242,7 +242,8 @@ const EditProfile = ({ user, updateUserProfile }) => {
 
     return (
         <div className="">
-            <div className="w-full bg-white px-6 flex justify-between items-center sticky top-[76px] z-50 shadow-xl ">
+            <div className="w-full bg-white px-6 flex justify-between items-center shadow-xl ">
+                {/*  sticky top-[76px] z-50 */}
                 <Breadcrumb
                     separatorIcon={<CaretRight size={20} color="#AFBACA" />}
                 >

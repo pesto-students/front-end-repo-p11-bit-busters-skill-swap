@@ -14,6 +14,7 @@ const SelectAsyncComponent = ({
     value,
     containerClassName,
     defaultOptions,
+    isMulti,
     ...rest
 }) => {
     const styles = {
@@ -33,17 +34,52 @@ const SelectAsyncComponent = ({
         // }),
     };
 
-    const handleOnChange = (values) => {
-        const selected = values.map((options) => (options.value));
-
-        const e = {
-            target: {
-                name: name,
-                value: selected
+    const getValue = () => {
+        if (isMulti) {
+            return (
+                defaultOptions
+                    ?.filter((option) => value.includes(option))
+                    ?.map((option) => ({
+                        label: option,
+                        value: option,
+                    })) || []
+            );
+        } else {
+            const option = defaultOptions?.find((option) =>
+                value.includes(option)
+            );
+            if (option) {
+                return {
+                    label: option,
+                    value: option,
+                };
             }
         }
+
+        return "";
+    };
+
+    const handleOnChange = (values) => {
+        let e;
+        if (isMulti) {
+            const selected = values.map((options) => options.value);
+
+            e = {
+                target: {
+                    name: name,
+                    value: selected,
+                },
+            };
+        } else {
+            e = {
+                target: {
+                    name: name,
+                    value: values.value,
+                },
+            };
+        }
         onChange(e);
-    }
+    };
     return (
         <div className={twMerge("", containerClassName)}>
             <Label
@@ -55,14 +91,7 @@ const SelectAsyncComponent = ({
                 id={id}
                 name={name}
                 placeholder={placeholder}
-                value={
-                    defaultOptions
-                        ?.filter((option) => value.includes(option))
-                        ?.map((option) => ({
-                            label: option,
-                            value: option,
-                        })) || []
-                }
+                value={getValue()}
                 components={{ DropdownIndicator }}
                 styles={styles}
                 defaultOptions={
@@ -72,6 +101,7 @@ const SelectAsyncComponent = ({
                     })) || []
                 }
                 onChange={handleOnChange}
+                isMulti={isMulti}
                 {...rest}
             />
             {error && (
