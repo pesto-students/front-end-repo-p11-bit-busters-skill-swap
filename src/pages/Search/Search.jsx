@@ -1,16 +1,19 @@
-import { Breadcrumb, Button } from "keep-react";
-import React, { useState } from "react";
+import { Breadcrumb, Button, Typography } from "keep-react";
+import React, { useEffect, useState } from "react";
 import generateUrl from "../../utils/routes";
 import { CaretRight } from "phosphor-react";
 import SelectAsyncComponent from "../../components/FormElements/SelectAsyncComponent";
 import skillSet from "../../utils/skillSet";
 import UserCard from "../../components/UserCard/UserCard";
+import { searchUser } from "../../redux/actions/userAction";
+import Loader from "../../components/Loader/Loader";
+import { connect } from "react-redux";
 
-const Search = () => {
+const Search = ({ searchUser, users, auth }) => {
     const [formData, setFormData] = useState({
         skills_offering: "",
         skills_seeking: [],
-        page: 0,
+        page: 1,
         limit: 10,
     });
 
@@ -25,13 +28,20 @@ const Search = () => {
     };
 
     const handleChange = (e) => {
-        const {name, value} = e.target;
-
+        const { name, value } = e.target;
         setFormData((prev) => ({
             ...prev,
-            [name]: value
+            [name]: value,
         }));
-    }
+    };
+
+    const handleSearch = () => {
+        searchUser(formData);
+    };
+
+    useEffect(() => {
+        handleSearch();
+    },[]);
 
     return (
         <div>
@@ -63,6 +73,7 @@ const Search = () => {
                             cacheOptions
                             onChange={handleChange}
                             loadOptions={handleLoadSkillOptions}
+                            isClearable={true}
                         />
                         <SelectAsyncComponent
                             label="Skills Seeking"
@@ -74,37 +85,53 @@ const Search = () => {
                                     ...formData.skills_seeking,
                                 ]),
                             ]}
-                            value={
-                                formData.skills_seeking
-                            }
+                            value={formData.skills_seeking}
                             name="skills_seeking"
                             isMulti={true}
                             cacheOptions
                             onChange={handleChange}
                             loadOptions={handleLoadSkillOptions}
                         />
-                         <Button size="sm" type="primary" className="py-0 w-full">Search</Button>
+                        <Button
+                            size="sm"
+                            type="primary"
+                            className="py-0 w-full"
+                            onClick={handleSearch}
+                        >
+                            Search
+                        </Button>
                     </div>
                 </div>
                 <div className="w-full md:w-3/4">
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                        <UserCard />
-                        <UserCard />
-                        <UserCard />
-                        <UserCard />
-                        <UserCard />
-                        <UserCard />
-                        <UserCard />
-                        <UserCard />
-                        <UserCard />
-                        <UserCard />
-                        <UserCard />
-                        <UserCard />
+                        {users.users.map((user) => (
+                            <UserCard key={user._id} user={user}/>
+                        ))}
+                        {users.users.length === 0 && (
+                            <div className="border border-dashed text-center p-6 my-6 rounded text-blue-600 border-slate-300 col-span-3">
+                                <Typography
+                                    variant="paragraph-1"
+                                    className="font-medium text-blue-400"
+                                >
+                                    Please change filters and try searching again.
+                                </Typography>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
+            <Loader loading={users.loading} />
         </div>
     );
 };
 
-export default Search;
+const mapStateToProps = (state) => ({
+    users: state.users,
+    auth: state.auth,
+});
+
+const mapDispatchToProps = {
+    searchUser,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Search);

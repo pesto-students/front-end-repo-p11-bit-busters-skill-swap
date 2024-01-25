@@ -83,11 +83,12 @@ const NavbarComponent = ({ logout, toggleSidebar, user }) => {
                         className="lg:flex hidden items-start justify-between gap-8"
                     >
                         {menu.map((link) => (
-                            <Navbar.Link
-                                linkName={link.label}
-                                href={link.link}
+                            <Link
+                                to={link.link}
                                 key={link.id}
-                            />
+                            >
+                                {link.label}
+                            </Link>
                         ))}
                     </Navbar.Container>
                 </Navbar.Container>
@@ -128,11 +129,8 @@ const NavbarComponent = ({ logout, toggleSidebar, user }) => {
                                             {user.user.name}
                                         </Card.Title>
                                         <Card.Title className="!text-body-6 font-normal text-metal-400 md:text-body-5">
-                                            {
-                                                user.user
-                                                    ?.professional_information
-                                                    ?.role || ""
-                                            }
+                                            {user.user?.professional_information
+                                                ?.role || ""}
                                         </Card.Title>
                                     </Card.Container>
                                 </Card.Container>
@@ -198,20 +196,20 @@ const SidebarComponent = ({ user, toggleSidebar, sidebarOpen, logout }) => {
                 <Sidebar.ItemGroup className="bg-header_background">
                     {menu?.map((item) => (
                         <Sidebar.Item
-                            href={item.link}
+                            as="div"
                             icon={item.icon}
                             key={item.id}
                             active={location.pathname === item.link}
                         >
-                            {item.label}
+                            <Link to={item.link}>{item.label}</Link>
                         </Sidebar.Item>
                     ))}
                     <Sidebar.Item
+                        as="div"
                         icon={<User size={24} />}
-                        onClick={logout}
                         className="lg:hidden cursor-pointer"
                     >
-                        Profile
+                        <Link to={generateUrl('profile')}>Profile</Link>
                     </Sidebar.Item>
                     <Sidebar.Item
                         icon={<SignOut size={24} />}

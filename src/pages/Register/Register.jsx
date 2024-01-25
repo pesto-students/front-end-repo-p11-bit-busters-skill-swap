@@ -108,7 +108,7 @@ const Register = ({ auth, registerUser }) => {
                             className="w-full"
                             onClick={handleSubmit}
                         >
-                            Log in
+                            Register
                         </Button>
                     </div>
                     <div className="flex justify-center">

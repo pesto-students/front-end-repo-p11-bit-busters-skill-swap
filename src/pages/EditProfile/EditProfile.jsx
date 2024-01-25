@@ -21,6 +21,7 @@ import moment from "moment";
 import { updateUserProfile } from "../../redux/actions/authAction";
 import Swal from "sweetalert2";
 import Loader from "../../components/Loader/Loader";
+import SkillScoreStatistic from "../../components/SkillScoreStatics/SkillScoreStatistic";
 
 const EditProfile = ({ user, updateUserProfile }) => {
     const personalInformationRef = useRef();
@@ -374,8 +375,9 @@ const EditProfile = ({ user, updateUserProfile }) => {
                                         </div>
                                     </div>
                                     {(user?.user?.professional_information
-                                        ?.skills_to_offer?.length === 0 || !user?.user?.professional_information
-                                        ?.skills_to_offer) && (
+                                        ?.skills_to_offer?.length === 0 ||
+                                        !user?.user?.professional_information
+                                            ?.skills_to_offer) && (
                                         <div className=" px-6 mb-6">
                                             <p className="font-medium text-orange-500">
                                                 Looks like you haven't added any
@@ -392,10 +394,10 @@ const EditProfile = ({ user, updateUserProfile }) => {
                                             <div className=" px-6 mb-6">
                                                 <p className="font-medium text-blue-500">
                                                     Great job on updating your
-                                                    profile! We're now processing
-                                                    your information to provide
-                                                    personalized scores. Stay
-                                                    tuned!
+                                                    profile! We're now
+                                                    processing your information
+                                                    to provide personalized
+                                                    scores. Stay tuned!
                                                 </p>
                                             </div>
                                         )}
@@ -403,40 +405,10 @@ const EditProfile = ({ user, updateUserProfile }) => {
                                         <div className="px-6 flex flex-wrap gap-6 mb-6">
                                             {user?.user?.skill_scores?.map(
                                                 (skill) => (
-                                                    <div
-                                                        className="border border-metal-50 bg-metal-100 rounded p-4"
+                                                    <SkillScoreStatistic
+                                                        skill={skill}
                                                         key={skill.skill_name}
-                                                    >
-                                                        <Statistic>
-                                                            <Popover
-                                                                trigger="hover"
-                                                                className="shadow-2x bg-slate-500"
-                                                                icon={<></>}
-                                                            >
-                                                                <Popover.Description>
-                                                                    {
-                                                                        skill.explanation
-                                                                    }
-                                                                </Popover.Description>
-                                                                <Popover.Action>
-                                                                    <Statistic.Title className="flex items-center gap-2">
-                                                                        {
-                                                                            skill.skill_name
-                                                                        }
-
-                                                                        <Info
-                                                                            size={
-                                                                                20
-                                                                            }
-                                                                        />
-                                                                    </Statistic.Title>
-                                                                </Popover.Action>
-                                                            </Popover>
-                                                            <Statistic.Amount>
-                                                                {skill.score}
-                                                            </Statistic.Amount>
-                                                        </Statistic>
-                                                    </div>
+                                                    />
                                                 )
                                             )}
                                         </div>

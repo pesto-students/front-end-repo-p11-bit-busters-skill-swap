@@ -45,8 +45,8 @@ const SelectAsyncComponent = ({
                     })) || []
             );
         } else {
-            const option = defaultOptions?.find((option) =>
-                value.includes(option)
+            const option = defaultOptions?.find(
+                (option) => value === option
             );
             if (option) {
                 return {
@@ -74,7 +74,7 @@ const SelectAsyncComponent = ({
             e = {
                 target: {
                     name: name,
-                    value: values.value,
+                    value: values?.value ? values.value : "",
                 },
             };
         }

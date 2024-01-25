@@ -17,7 +17,6 @@ const initialState = {
     loading: false,
     isLoggedIn: null,
     successMessage: "",
-    dashboard: {},
     user: {},
     errors: {},
 };
