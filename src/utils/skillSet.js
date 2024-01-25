@@ -342,6 +342,19 @@ const skillSet = [
     "Data Science",
     "Public Speaking",
     "Budeget Management",
+    "Leardership",
+    "Communication",
+    "Interpersonal Skills",
+    "Ansys (Software)",
+    "AutoCAD",
+    "Catia",
+    "UI/UX Design",
+    "Material-UI",
+    "Cloud Computing",
+    "SDLC",
+    "Analytical Skills",
+    "Machine Learning",
+    "Test Automation",
 ];
 
 export default skillSet;
