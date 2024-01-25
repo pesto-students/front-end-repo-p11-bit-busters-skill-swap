@@ -98,10 +98,6 @@ const EditProfile = ({ user, updateUserProfile }) => {
     };
 
     useEffect(() => {
-        console.log(formData);
-    }, [formData]);
-
-    useEffect(() => {
         const resizeObserver = new ResizeObserver((entries) => {
             for (let entry of entries) {
                 setPersonalInformationHeight(entry.target.offsetHeight);
@@ -123,46 +119,49 @@ const EditProfile = ({ user, updateUserProfile }) => {
         if (user.user) {
             const user_temp = user.user;
             const data = {
-                name: user_temp.name,
-                email: user_temp.email,
-                city: user_temp.city,
-                state: user_temp.state,
-                about: user_temp.about,
+                name: user_temp?.name || "",
+                email: user_temp?.email || "",
+                city: user_temp?.city || "",
+                state: user_temp?.state || "",
+                about: user_temp?.about || "",
                 professional_information: {
-                    role: user_temp.professional_information.role,
-                    industry: user_temp.professional_information.industry,
+                    role: user_temp?.professional_information?.role || "",
+                    industry:
+                        user_temp?.professional_information?.industry || "",
                     skills_to_offer:
-                        user_temp.professional_information.skills_to_offer,
+                        user_temp?.professional_information?.skills_to_offer ||
+                        [],
                     skills_seeking:
-                        user_temp.professional_information.skills_seeking,
+                        user_temp?.professional_information?.skills_seeking ||
+                        [],
                 },
                 interests: {
-                    short_goal: user_temp.interests.short_goal,
-                    long_goal: user_temp.interests.long_goal,
-                    hobbies: user_temp.interests.hobbies,
+                    short_goal: user_temp?.interests?.short_goal || "",
+                    long_goal: user_temp?.interests?.long_goal || "",
+                    hobbies: user_temp?.interests?.hobbies || [],
                 },
                 projects: user_temp.projects.map((project) => ({
-                    title: project.title,
-                    link: project.link,
-                    role: project.role,
-                    skills: project.skills,
-                    description: project.description,
-                    outcome: project.outcome,
+                    title: project?.title || "",
+                    link: project?.link || "",
+                    role: project?.role || "",
+                    skills: project?.skills || "",
+                    description: project?.description || "",
+                    outcome: project?.outcome || "",
                 })),
                 education: user_temp.education.map((education) => ({
-                    degree: education.degree,
-                    institute_name: education.institute_name,
-                    start_date: education.start_date,
-                    end_date: education.end_date,
+                    degree: education?.degree || "",
+                    institute_name: education?.institute_name || "",
+                    start_date: education?.start_date || "",
+                    end_date: education?.end_date || "",
                 })),
                 certifications: user_temp.certifications.map(
                     (certification) => ({
-                        title: certification.title,
+                        title: certification?.title || "",
                         issuing_organization:
-                            certification.issuing_organization,
-                        link: certification.link,
-                        issuing_date: certification.issuing_date,
-                        expiry_date: certification.expiry_date,
+                            certification?.issuing_organization || "",
+                        link: certification?.link || "",
+                        issuing_date: certification?.issuing_date || "",
+                        expiry_date: certification?.expiry_date || "",
                     })
                 ),
             };
@@ -374,8 +373,9 @@ const EditProfile = ({ user, updateUserProfile }) => {
                                             </Popover>
                                         </div>
                                     </div>
-                                    {user?.user?.professional_information
-                                        ?.skills_to_offer?.length === 0 && (
+                                    {(user?.user?.professional_information
+                                        ?.skills_to_offer?.length === 0 || !user?.user?.professional_information
+                                        ?.skills_to_offer) && (
                                         <div className=" px-6 mb-6">
                                             <p className="font-medium text-orange-500">
                                                 Looks like you haven't added any
@@ -391,8 +391,8 @@ const EditProfile = ({ user, updateUserProfile }) => {
                                             0 && (
                                             <div className=" px-6 mb-6">
                                                 <p className="font-medium text-blue-500">
-                                                    Great job on adding your
-                                                    skills! We're now processing
+                                                    Great job on updating your
+                                                    profile! We're now processing
                                                     your information to provide
                                                     personalized scores. Stay
                                                     tuned!
@@ -400,11 +400,11 @@ const EditProfile = ({ user, updateUserProfile }) => {
                                             </div>
                                         )}
                                     {user?.user?.skill_scores?.length > 0 && (
-                                        <div className="px-6 md:grid md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6 mb-6">
+                                        <div className="px-6 flex flex-wrap gap-6 mb-6">
                                             {user?.user?.skill_scores?.map(
                                                 (skill) => (
                                                     <div
-                                                        className="border border-metal-50 bg-metal-100 rounded p-4 mb-6 md:mb-0"
+                                                        className="border border-metal-50 bg-metal-100 rounded p-4"
                                                         key={skill.skill_name}
                                                     >
                                                         <Statistic>
@@ -925,8 +925,8 @@ const EditProfile = ({ user, updateUserProfile }) => {
                                                 }
                                             />
                                             <DatePickerComponent
-                                                label="Start Date"
-                                                placeholder="Enter Start Date"
+                                                label="Issuing Date"
+                                                placeholder="Enter Issuing Date"
                                                 containerClassName="mb-6 md:mb-0"
                                                 value={
                                                     certification?.issuing_date
@@ -935,7 +935,7 @@ const EditProfile = ({ user, updateUserProfile }) => {
                                                           ).format("YYYY-MM-DD")
                                                         : ""
                                                 }
-                                                name={`certification.${index}.issuing_date`}
+                                                name={`certifications.${index}.issuing_date`}
                                                 onChange={handleChange}
                                                 error={
                                                     user?.errors
@@ -945,8 +945,8 @@ const EditProfile = ({ user, updateUserProfile }) => {
                                                 }
                                             />
                                             <DatePickerComponent
-                                                label="End Date"
-                                                placeholder="Enter End Date"
+                                                label="Expiry Date"
+                                                placeholder="Enter Expiry Date"
                                                 containerClassName=""
                                                 value={
                                                     certification?.expiry_date
@@ -955,7 +955,7 @@ const EditProfile = ({ user, updateUserProfile }) => {
                                                           ).format("YYYY-MM-DD")
                                                         : ""
                                                 }
-                                                name={`certification.${index}.expiry_date`}
+                                                name={`certifications.${index}.expiry_date`}
                                                 onChange={handleChange}
                                                 error={
                                                     user?.errors

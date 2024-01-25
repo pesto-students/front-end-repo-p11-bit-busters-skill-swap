@@ -130,8 +130,8 @@ const NavbarComponent = ({ logout, toggleSidebar, user }) => {
                                         <Card.Title className="!text-body-6 font-normal text-metal-400 md:text-body-5">
                                             {
                                                 user.user
-                                                    .professional_information
-                                                    .role
+                                                    ?.professional_information
+                                                    ?.role || ""
                                             }
                                         </Card.Title>
                                     </Card.Container>

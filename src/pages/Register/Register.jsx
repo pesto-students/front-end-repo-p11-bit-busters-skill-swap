@@ -1,6 +1,5 @@
 import { Button, Typography } from "keep-react";
 import React, { useEffect, useState } from "react";
-import Logo from "../../assets/logo.png";
 import TextInputComponent from "../../components/FormElements/TextInputComponent";
 import { Link, useNavigate } from "react-router-dom";
 import generateUrl from "../../utils/routes";
@@ -9,6 +8,7 @@ import { registerUser } from "../../redux/actions/authAction";
 import Loader from "../../components/Loader/Loader";
 import { connect } from "react-redux";
 import Swal from "sweetalert2";
+import Logo from "../../components/Logo/Logo";
 
 const Register = ({ auth, registerUser }) => {
     const navigate = useNavigate();

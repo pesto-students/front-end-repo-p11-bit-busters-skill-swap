@@ -337,6 +337,11 @@ const skillSet = [
     "High Availability Systems",
     "Scalable Systems",
     "Distributed Systems",
+    "Project Management",
+    "Team Leadership",
+    "Data Science",
+    "Public Speaking",
+    "Budeget Management",
 ];
 
 export default skillSet;
