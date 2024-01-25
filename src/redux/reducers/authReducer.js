@@ -94,6 +94,7 @@ const authReducer = (state = initialState, action) => {
             return {
                 ...state,
                 loading: false,
+                isLoggedIn: false,
                 successMessage: "",
                 errors: action.payload.errors,
             };
