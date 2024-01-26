@@ -5,6 +5,8 @@ import {
     USER_PROFILE_REQUEST,
     USER_PROFILE_SUCCESS,
     USER_PROFILE_FAILURE,
+    USER_SEARCH_REQUEST_APPEND,
+    USER_SEARCH_SUCCESS_APPEND,
 } from "../actions/userAction";
 
 const initialState = {
@@ -41,6 +43,22 @@ const userReducer = (state = initialState, action) => {
                 isLoggedIn: false,
                 successMessage: "",
                 errors: action.payload.errors,
+            };
+        case USER_SEARCH_REQUEST_APPEND:
+            return {
+                ...state,
+                users_loading: true,
+                successMessage: "",
+                errors: {},
+            };
+        case USER_SEARCH_SUCCESS_APPEND:
+            return {
+                ...state,
+                users_loading: false,
+                successMessage: action.payload.message,
+                users: [...state.users, ...action.payload.data.users],
+                pagination: action.payload.data.pagination,
+                errors: {},
             };
         case USER_PROFILE_REQUEST:
             return {

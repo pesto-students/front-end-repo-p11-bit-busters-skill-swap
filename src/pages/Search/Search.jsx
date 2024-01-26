@@ -8,13 +8,14 @@ import UserCard from "../../components/UserCard/UserCard";
 import { searchUser } from "../../redux/actions/userAction";
 import Loader from "../../components/Loader/Loader";
 import { connect } from "react-redux";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const Search = ({ searchUser, users, auth }) => {
     const [formData, setFormData] = useState({
         skills_offering: "",
         skills_seeking: [],
         page: 1,
-        limit: 10,
+        limit: 9,
     });
 
     const handleLoadSkillOptions = (search, callback) => {
@@ -39,9 +40,16 @@ const Search = ({ searchUser, users, auth }) => {
         searchUser(formData);
     };
 
+    const fetchMoreData = () => {
+        const data = { ...formData };
+        data.page = data.page + 1;
+        setFormData(data);
+        searchUser(data, undefined, true);
+    };
+
     useEffect(() => {
         handleSearch();
-    },[]);
+    }, []);
 
     return (
         <div>
@@ -103,9 +111,34 @@ const Search = ({ searchUser, users, auth }) => {
                     </div>
                 </div>
                 <div className="w-full md:w-3/4">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                    <InfiniteScroll
+                        dataLength={users?.pagination?.total_docs || 1}
+                        next={fetchMoreData}
+                        hasMore={users?.pagination?.hasNextPage || false}
+                        loader={
+                            <div className="col-span-3 flex justify-center my-6">
+                                <Loader
+                                    loading={true}
+                                    fullPageLoader={false}
+                                />
+                            </div>
+                        }
+                        endMessage={
+                            users.users.length > 0 && (
+                                <div className="text-center p-6 my-6 rounded text-blue-600 border-slate-300 col-span-3">
+                                    <Typography
+                                        variant="paragraph-1"
+                                        className="font-medium text-blue-400"
+                                    >
+                                        You have seen it all!
+                                    </Typography>
+                                </div>
+                            )
+                        }
+                        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"
+                    >
                         {users.users.map((user) => (
-                            <UserCard key={user._id} user={user}/>
+                            <UserCard key={user._id} user={user} />
                         ))}
                         {users.users.length === 0 && (
                             <div className="border border-dashed text-center p-6 my-6 rounded text-blue-600 border-slate-300 col-span-3">
@@ -113,11 +146,12 @@ const Search = ({ searchUser, users, auth }) => {
                                     variant="paragraph-1"
                                     className="font-medium text-blue-400"
                                 >
-                                    Please change filters and try searching again.
+                                    Please change filters and try searching
+                                    again.
                                 </Typography>
                             </div>
                         )}
-                    </div>
+                    </InfiniteScroll>
                 </div>
             </div>
             <Loader loading={users.loading} />
