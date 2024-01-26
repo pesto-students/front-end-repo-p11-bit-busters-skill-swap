@@ -42,7 +42,7 @@ const UserCard = ({ user }) => {
                                 className="text-slate-400"
                             >
                                 {user?.city}
-                                {user?.city ? "," : ""}
+                                {user?.city ? ", " : ""}
                                 {user?.state}
                             </Typography>
                         )}

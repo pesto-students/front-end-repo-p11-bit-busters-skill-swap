@@ -14,3 +14,23 @@
 .react-date-picker__inputGroup__input{
     outline: none;
 }
+
+/* width */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 5px;
+}
+
+/* Track */
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: none; 
+}
+
+/* Handle */
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #888; 
+}
+
+/* Handle on hover */
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}

@@ -1,19 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Avatar, Card, Dropdown, Navbar } from "keep-react";
-import { Sidebar } from "keep-react";
-import {
-    User,
-    MapPinLine,
-    ArrowLeft,
-    List,
-    SignOut,
-    MagnifyingGlass,
-} from "phosphor-react";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { User, MapPinLine, MagnifyingGlass } from "phosphor-react";
+import { Outlet } from "react-router-dom";
 import { connect } from "react-redux";
 import { logout } from "../../redux/actions/authAction";
-import Logo from "../Logo/Logo";
 import generateUrl from "../../utils/routes";
+import NavbarComponent from "../LayoutComponents/NavbarComponent";
+import SidebarComponent from "../LayoutComponents/SidebarComponent";
+import { io } from "socket.io-client";
+
+import "react-toastify/dist/ReactToastify.css";
+import { Bounce, ToastContainer, toast } from "react-toastify";
 
 const menu = [
     {
@@ -39,15 +35,63 @@ const menu = [
 const AppLayout = ({ user, logout }) => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
+    const token = localStorage.getItem("access_token");
+
     const toggleSidebar = () => {
         setSidebarOpen(!sidebarOpen);
     };
+    useEffect(() => {
+        const socket = io(import.meta.env.VITE_APP_SOCKET_URL, {
+            auth: { token: token },
+        });
+        socket.on("connection", () => {
+           console.log('socket connection established')
+        });
+        socket.on("notification", (data) => {
+            toast[data.type](data.message, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                transition: Bounce,
+            });
+        });
+        const updateUserStatus = () => {
+            if (document.visibilityState !== "hidden") {
+                socket.emit("update_user_active_status");
+            }
+        };
+
+        const intervalId = setInterval(updateUserStatus, 40000);
+
+        const handleVisibilityChange = () => {
+            if (document.visibilityState !== "hidden") {
+                updateUserStatus();
+            }
+        };
+        document.addEventListener("visibilitychange", handleVisibilityChange);
+
+        return () => {
+            clearInterval(intervalId);
+            document.removeEventListener(
+                "visibilitychange",
+                handleVisibilityChange
+            );
+            socket.disconnect();
+        };
+    }, []);
+
     return (
         <div className="bg-slate-100 min-h-screen">
             <NavbarComponent
                 logout={logout}
                 toggleSidebar={toggleSidebar}
                 user={user}
+                menu={menu}
             />
             <div className="lg:grid">
                 <SidebarComponent
@@ -55,171 +99,13 @@ const AppLayout = ({ user, logout }) => {
                     toggleSidebar={toggleSidebar}
                     sidebarOpen={sidebarOpen}
                     logout={logout}
+                    menu={menu}
                 />
                 <main className="w-full">
                     <Outlet />
                 </main>
             </div>
-        </div>
-    );
-};
-
-const NavbarComponent = ({ logout, toggleSidebar, user }) => {
-    return (
-        <Navbar fluid={true} className="bg-header_background sticky top-0 z-50">
-            <Navbar.Container className="flex items-center justify-between px-0 lg:px-12 py-2">
-                <Navbar.Container
-                    tag="div"
-                    className="flex items-center justify-between gap-8"
-                >
-                    <Navbar.Brand className="text-xl font-medium">
-                        <Link to={generateUrl("dashboard")}>
-                            <Logo showImageLogo={true} />
-                        </Link>
-                    </Navbar.Brand>
-                    <Navbar.Divider></Navbar.Divider>
-                    <Navbar.Container
-                        tag="ul"
-                        className="lg:flex hidden items-start justify-between gap-8"
-                    >
-                        {menu.map((link) => (
-                            <Link
-                                to={link.link}
-                                key={link.id}
-                            >
-                                {link.label}
-                            </Link>
-                        ))}
-                    </Navbar.Container>
-                </Navbar.Container>
-
-                <Navbar.Container className="flex items-center gap-3">
-                    <Navbar.Container
-                        tag="ul"
-                        className="lg:flex hidden items-center justify-between gap-5"
-                    >
-                        <Dropdown
-                            label={
-                                <Avatar
-                                    size="md"
-                                    shape="circle"
-                                    img={`${
-                                        user.user.profile_image ||
-                                        "https://randomuser.me/api/portraits/men/11.jpg"
-                                    }`}
-                                />
-                            }
-                            size="sm"
-                            type="linkPrimary"
-                            arrowIcon={false}
-                            className="bg-transparent hover:bg-transparent"
-                        >
-                            <Card className="max-w-xs px-6 py-4 md:max-w-lg rounded-none border-t-0 border-x-0 border-b border-metal-50">
-                                <Card.Container className="flex items-center">
-                                    <Avatar
-                                        size="lg"
-                                        shape="circle"
-                                        img={`${
-                                            user.user.profile_image ||
-                                            "https://randomuser.me/api/portraits/men/11.jpg"
-                                        }`}
-                                    />
-                                    <Card.Container className="ml-3">
-                                        <Card.Title className="text-body-5 font-semibold text-metal-800 md:text-body-4">
-                                            {user.user.name}
-                                        </Card.Title>
-                                        <Card.Title className="!text-body-6 font-normal text-metal-400 md:text-body-5">
-                                            {user.user?.professional_information
-                                                ?.role || ""}
-                                        </Card.Title>
-                                    </Card.Container>
-                                </Card.Container>
-                            </Card>
-                            <Dropdown.Item
-                                icon={
-                                    <Link to={generateUrl("profile")}>
-                                        <User size={20} color="#444" />
-                                    </Link>
-                                }
-                            >
-                                <Link
-                                    to={generateUrl("profile")}
-                                    className="w-full"
-                                >
-                                    Profile
-                                </Link>
-                            </Dropdown.Item>
-                            <Dropdown.Item
-                                icon={<SignOut size={20} />}
-                                onClick={logout}
-                            >
-                                Logout
-                            </Dropdown.Item>
-                        </Dropdown>
-                    </Navbar.Container>
-                </Navbar.Container>
-                <div className="lg:hidden">
-                    <button onClick={toggleSidebar} className="outline-none">
-                        <List className="text-2xl" />
-                    </button>
-                </div>
-            </Navbar.Container>
-        </Navbar>
-    );
-};
-
-const SidebarComponent = ({ user, toggleSidebar, sidebarOpen, logout }) => {
-    const location = useLocation();
-    return (
-        <div
-            className={`bg-header_background h-screen md:h-[calc(100vh-72px)] fixed inset-y-0 right-0 transform transition-transform duration-300 ${
-                sidebarOpen ? "translate-x-0" : "translate-x-full"
-            } lg:relative lg:translate-x-0 z-[85] w-2/3 md:hidden`}
-        >
-            <div className="py-4 px-6 lg:hidden">
-                <button
-                    onClick={toggleSidebar}
-                    className=" bg-transparent text-sm flex gap-4 items-center outline-none"
-                >
-                    <ArrowLeft className="text-lg" /> Go Back
-                </button>
-            </div>
-            <Sidebar
-                aria-label="Sidebar with multi-level dropdown example"
-                className="bg-header_background"
-                theme={{
-                    root: {
-                        inner: "h-full overflow-y-auto overflow-x-hidden rounded py-4 px-3 bg-header_background",
-                    },
-                }}
-            >
-                <Sidebar.ItemGroup className="bg-header_background">
-                    {menu?.map((item) => (
-                        <Sidebar.Item
-                            as="div"
-                            icon={item.icon}
-                            key={item.id}
-                            active={location.pathname === item.link}
-                        >
-                            <Link to={item.link}>{item.label}</Link>
-                        </Sidebar.Item>
-                    ))}
-                    <Sidebar.Item
-                        as="div"
-                        icon={<User size={24} />}
-                        className="lg:hidden cursor-pointer"
-                    >
-                        <Link to={generateUrl('profile')}>Profile</Link>
-                    </Sidebar.Item>
-                    <Sidebar.Item
-                        icon={<SignOut size={24} />}
-                        onClick={logout}
-                        className="lg:hidden cursor-pointer"
-                    >
-                        Logout
-                    </Sidebar.Item>
-                </Sidebar.ItemGroup>
-            </Sidebar>
+            <ToastContainer />
         </div>
     );
 };

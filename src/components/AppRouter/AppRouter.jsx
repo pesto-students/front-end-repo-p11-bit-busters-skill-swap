@@ -10,6 +10,7 @@ import AppLayout from "../AppLayout/AppLayout";
 import EditProfile from "../../pages/EditProfile/EditProfile";
 import Search from "../../pages/Search/Search";
 import ViewProfile from "../../pages/ViewProfile/ViewProfile";
+import Messages from "../../pages/Messages/Messages";
 
 const AppRouter = () => {
     return (
@@ -23,27 +24,11 @@ const AppRouter = () => {
                 />
                 <Route element={<PrivateRoute />}>
                     <Route element={<AppLayout />}>
-                        <Route exact path={generateUrl('dashboard')} element={<Search />} />
-                        <Route exact path={generateUrl('profile')} element={<EditProfile />} />
+                        <Route exact path={routes.dashboard} element={<Search />} />
+                        <Route exact path={routes.profile} element={<EditProfile />} />
                         <Route exact path={routes.user_profile} element={<ViewProfile />} />
-                        {/* <Route exact path="/" element={<Dashboard />} />
-                        <Route
-                            exact
-                            path="/location/list"
-                            element={<LocationList />}
-                        />
-                        <Route
-                            exact
-                            path="/system/list"
-                            element={<SystemList />}
-                        />
-                        <Route exact path="/report" element={<Report />} />
-                        <Route
-                            exact
-                            path="/billing"
-                            element={<BillingCheck />}
-                        />
-                        <Route element={<IsAdmin />}></Route> */}
+                        <Route exact path={routes.messages} element={<Messages />} />
+                        {/* <Route element={<IsAdmin />}></Route> */}
                     </Route>
                 </Route>
                 <Route path="*" element={<Error404 />} />
