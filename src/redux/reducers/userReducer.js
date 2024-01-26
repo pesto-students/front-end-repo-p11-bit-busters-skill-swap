@@ -15,7 +15,15 @@ const initialState = {
     successMessage: "",
     user: {},
     errors: {},
-    pagination: {},
+    pagination: {
+        currentPage: 1,
+        hasNextPage: false,
+        hasPrevPage: false,
+        limit: 0,
+        total_docs: 0,
+        total_pages: 0,
+    },
+    append_loading: false,
 };
 
 const userReducer = (state = initialState, action) => {
@@ -47,14 +55,14 @@ const userReducer = (state = initialState, action) => {
         case USER_SEARCH_REQUEST_APPEND:
             return {
                 ...state,
-                users_loading: true,
+                append_loading: true,
                 successMessage: "",
                 errors: {},
             };
         case USER_SEARCH_SUCCESS_APPEND:
             return {
                 ...state,
-                users_loading: false,
+                append_loading: false,
                 successMessage: action.payload.message,
                 users: [...state.users, ...action.payload.data.users],
                 pagination: action.payload.data.pagination,
@@ -81,6 +89,7 @@ const userReducer = (state = initialState, action) => {
                 loading: false,
                 successMessage: "",
                 errors: action.payload.errors,
+                append_loading: false,
             };
         default:
             return state;

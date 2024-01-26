@@ -60,11 +60,13 @@ const ViewProfile = ({ users, getUserProfile }) => {
                 <Breadcrumb
                     separatorIcon={<CaretRight size={20} color="#AFBACA" />}
                 >
-                    <Breadcrumb.Item href={generateUrl("dashboard")}>
-                        Home
+                    <Breadcrumb.Item>
+                        <Link to={generateUrl("dashboard")}>Home</Link>
                     </Breadcrumb.Item>
-                    <Breadcrumb.Item href={generateUrl("profile")}>
-                        Profile
+                    <Breadcrumb.Item>
+                        <Link to={generateUrl("user_profile",{
+                            user_id: user_id
+                        })} active={true}>Profile</Link>
                     </Breadcrumb.Item>
                 </Breadcrumb>
             </div>

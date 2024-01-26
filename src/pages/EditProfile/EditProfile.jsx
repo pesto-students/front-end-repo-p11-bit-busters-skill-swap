@@ -22,6 +22,7 @@ import { updateUserProfile } from "../../redux/actions/authAction";
 import Swal from "sweetalert2";
 import Loader from "../../components/Loader/Loader";
 import SkillScoreStatistic from "../../components/SkillScoreStatics/SkillScoreStatistic";
+import { Link } from "react-router-dom";
 
 const EditProfile = ({ user, updateUserProfile }) => {
     const personalInformationRef = useRef();
@@ -247,8 +248,8 @@ const EditProfile = ({ user, updateUserProfile }) => {
                 <Breadcrumb
                     separatorIcon={<CaretRight size={20} color="#AFBACA" />}
                 >
-                    <Breadcrumb.Item href={generateUrl("profile")}>
-                        Profile
+                    <Breadcrumb.Item>
+                        <Link to={generateUrl("profile")} active={true}>Profile</Link>
                     </Breadcrumb.Item>
                 </Breadcrumb>
                 <div>
