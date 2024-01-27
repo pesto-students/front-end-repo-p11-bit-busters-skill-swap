@@ -25,6 +25,7 @@ jobs:
       run: npm run build # or yarn build
       env:
         VITE_APP_API_URL: ${{ secrets.VITE_APP_API_URL }}
+        VITE_APP_SOCKET_URL: ${{ secrets.VITE_APP_SOCKET_URL }}
 
     - name: Copy build to EC2
       uses: appleboy/scp-action@master
