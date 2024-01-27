@@ -1,8 +1,8 @@
 import {
     Avatar,
     Breadcrumb,
+    Button,
     Popover,
-    Statistic,
     Tabs,
     Typography,
 } from "keep-react";
@@ -13,12 +13,18 @@ import banner from "../../assets/images/profile/banner.svg";
 import { connect } from "react-redux";
 import Loader from "../../components/Loader/Loader";
 import { getUserProfile } from "../../redux/actions/userAction";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import SkillScoreStatistic from "../../components/SkillScoreStatics/SkillScoreStatistic";
-import moment from "moment";
+import ProjectsTab from "../../components/ViewProfile/ProjectsTab";
+import EducationTab from "../../components/ViewProfile/EducationTab";
+import CertificationTab from "../../components/ViewProfile/CertificationTab";
+import TextContent from "../../components/ViewProfile/TextContent";
+import { createRoom } from "../../redux/actions/messageRoomAction";
+import Swal from "sweetalert2";
 
-const ViewProfile = ({ users, getUserProfile }) => {
+const ViewProfile = ({ users, getUserProfile, createRoom, messageRoom }) => {
     const params = useParams();
+    const navigate = useNavigate();
     const { user_id } = params;
     const [user, setUser] = useState(null);
     const personalInformationRef = useRef();
@@ -53,20 +59,61 @@ const ViewProfile = ({ users, getUserProfile }) => {
         getUserProfile(user_id);
     }, [user_id]);
 
+    const message = () => {
+        if (user.room) {
+            navigate(
+                generateUrl("messages", {
+                    room_id: user.room._id,
+                })
+            );
+        } else {
+            Swal.fire({
+                title: "Are you sure?",
+                text: `Do you want to start messaging ${user.name}?`,
+                icon: "question",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, start messaging",
+                cancelButtonText: "No, cancel",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    createRoom(
+                        {
+                            user_id: user_id,
+                        },
+                        (data) => {
+                            if (data?.data?.room?._id) {
+                                navigate(
+                                    generateUrl("messages", {
+                                        room_id: data?.data?.room?._id,
+                                    })
+                                );
+                            }
+                        }
+                    );
+                }
+            });
+        }
+    };
+
     return (
         <div className="">
             <div className="w-full bg-white px-6 flex justify-between items-center shadow-xl py-3">
-                {/*  sticky top-[76px] z-50 */}
                 <Breadcrumb
                     separatorIcon={<CaretRight size={20} color="#AFBACA" />}
                 >
                     <Breadcrumb.Item>
                         <Link to={generateUrl("dashboard")}>Home</Link>
                     </Breadcrumb.Item>
-                    <Breadcrumb.Item>
-                        <Link to={generateUrl("user_profile",{
-                            user_id: user_id
-                        })} active={true}>Profile</Link>
+                    <Breadcrumb.Item active={true}>
+                        <Link
+                            to={generateUrl("user_profile", {
+                                user_id: user_id,
+                            })}
+                        >
+                            Profile
+                        </Link>
                     </Breadcrumb.Item>
                 </Breadcrumb>
             </div>
@@ -122,6 +169,16 @@ const ViewProfile = ({ users, getUserProfile }) => {
                                                 title="About :"
                                                 value={user.about}
                                             />
+                                        </div>
+                                        <div className="pt-6 flex justify-center">
+                                            <Button
+                                                type="primary"
+                                                onClick={message}
+                                            >
+                                                {user.room
+                                                    ? "Message"
+                                                    : "Start Messaging"}
+                                            </Button>
                                         </div>
                                         <div className="p-6">
                                             <div className="font-medium text-2xl md:text-heading-6 flex items-center gap-4">
@@ -259,189 +316,34 @@ const ViewProfile = ({ users, getUserProfile }) => {
                             iconPosition="left"
                         >
                             <Tabs.Item title="Projects" className="p-6">
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    {user?.projects?.map((project) => (
-                                        <div
-                                            className="border border-slate-400 rounded-lg p-6"
-                                            key={project._id}
-                                        >
-                                            <div className="flex gap-2 items-center">
-                                                <TextContent
-                                                    title="Title :"
-                                                    value={project?.title}
-                                                />
-                                                {project?.link && (
-                                                    <Link
-                                                        to={project?.link}
-                                                        target="_blank"
-                                                        className="mt-1"
-                                                    >
-                                                        <LinkIcon size={18} />
-                                                    </Link>
-                                                )}
-                                            </div>
-                                            <TextContent
-                                                title="Role :"
-                                                value={project?.role}
-                                            />
-                                            <TextContent
-                                                title="Skills Utilized :"
-                                                value={project?.skills?.join(
-                                                    ", "
-                                                )}
-                                            />
-                                            <TextContent
-                                                title="Description :"
-                                                value={project?.description}
-                                            />
-                                            <TextContent
-                                                title="Outcome :"
-                                                value={project?.outcome}
-                                            />
-                                        </div>
-                                    ))}
-                                    {user?.projects?.length === 0 && (
-                                        <div className="col-span-2">
-                                            {user.name} has not added any
-                                            projects yet.
-                                        </div>
-                                    )}
-                                </div>
+                                <ProjectsTab projects={user?.projects} />
                             </Tabs.Item>
                             <Tabs.Item title="Education" className="p-6">
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    {user?.education?.map((education) => (
-                                        <div
-                                            className="border border-slate-400 rounded-lg p-6"
-                                            key={education._id}
-                                        >
-                                            <TextContent
-                                                title="Degree or Program :"
-                                                value={education?.degree}
-                                            />
-                                            <TextContent
-                                                title="Instituation Name :"
-                                                value={
-                                                    education?.institute_name
-                                                }
-                                            />
-                                            <TextContent
-                                                title="Start Date :"
-                                                value={
-                                                    education?.start_date
-                                                        ? moment(
-                                                              education?.start_date
-                                                          ).format(
-                                                              "D MMMM YYYY"
-                                                          )
-                                                        : null
-                                                }
-                                            />
-                                            <TextContent
-                                                title="End Date :"
-                                                value={
-                                                    education?.end_date
-                                                        ? moment(
-                                                              education?.end_date
-                                                          ).format(
-                                                              "D MMMM YYYY"
-                                                          )
-                                                        : null
-                                                }
-                                            />
-                                        </div>
-                                    ))}
-                                    {user?.education?.length === 0 && (
-                                        <div className="col-span-2">
-                                            {user.name} has not added any
-                                            education details yet.
-                                        </div>
-                                    )}
-                                </div>
+                                <EducationTab education={user?.education} />
                             </Tabs.Item>
                             <Tabs.Item title="Certifications" className="p-6">
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    {user?.certifications?.map(
-                                        (certification) => (
-                                            <div
-                                                className="border border-slate-400 rounded-lg p-6"
-                                                key={certification._id}
-                                            >
-                                                <TextContent
-                                                    title="Certification Title :"
-                                                    value={certification?.title}
-                                                />
-                                                <TextContent
-                                                    title="Issuing Organization :"
-                                                    value={
-                                                        certification?.issuing_organization
-                                                    }
-                                                />
-                                                <TextContent
-                                                    title="Issuing Date :"
-                                                    value={
-                                                        certification?.issuing_date
-                                                            ? moment(
-                                                                  certification?.issuing_date
-                                                              ).format(
-                                                                  "D MMMM YYYY"
-                                                              )
-                                                            : null
-                                                    }
-                                                />
-                                                <TextContent
-                                                    title="Expiry Date :"
-                                                    value={
-                                                        certification?.expiry_date
-                                                            ? moment(
-                                                                  certification?.expiry_date
-                                                              ).format(
-                                                                  "D MMMM YYYY"
-                                                              )
-                                                            : null
-                                                    }
-                                                />
-                                            </div>
-                                        )
-                                    )}
-                                    {user?.certifications?.length === 0 && (
-                                        <div className="col-span-2">
-                                            {user.name} has not added any
-                                            certification details yet.
-                                        </div>
-                                    )}
-                                </div>
+                                <CertificationTab
+                                    certifications={user?.certifications}
+                                />
                             </Tabs.Item>
                         </Tabs>
                     </div>
                 </div>
             )}
 
-            <Loader loading={users.loading} />
+            <Loader loading={users.loading || messageRoom.loading} />
         </div>
     );
 };
 
-const TextContent = ({ title, value }) => (
-    <div className="my-1 md:flex gap-2 items-center mb-4 md:mb-0 flex-wrap">
-        <Typography
-            variant="heading-6"
-            className="text-base text-slate-700 font-bold"
-        >
-            {title}
-        </Typography>
-        <Typography variant="heading-6" className="text-base text-slate-700">
-            {value ? value : "--"}
-        </Typography>
-    </div>
-);
-
 const mapStateToProps = (state) => ({
     users: state.users,
+    messageRoom: state.messageRoom,
 });
 
 const mapDispatchToProps = {
     getUserProfile,
+    createRoom,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ViewProfile);

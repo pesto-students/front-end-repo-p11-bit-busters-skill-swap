@@ -5,7 +5,7 @@ import { Avatar, Card, Sidebar, Typography } from "keep-react";
 import generateUrl from "../../utils/routes";
 import UserAvatarCard from "../UserAvatarCard/UserAvatarCard";
 
-const MessagesSidebar = ({ toggleSidebar, sidebarOpen }) => {
+const MessagesSidebar = ({ toggleSidebar, sidebarOpen, rooms, activeRoom }) => {
     const location = useLocation();
     return (
         <div
@@ -36,10 +36,24 @@ const MessagesSidebar = ({ toggleSidebar, sidebarOpen }) => {
                         },
                     }}
                 >
-                    <UserAvatarCard cardClassNames="bg-header_background" name="Anand Bhagat" role="Sr. frontend developer"/>
-                    <UserAvatarCard name="Anand Bhagat" role="Sr. frontend developer"/>
-                    <UserAvatarCard name="Anand Bhagat" role="Sr. frontend developer"/>
-                    <UserAvatarCard name="Anand Bhagat" role="Sr. frontend developer"/>
+                    {rooms.map((room) => (
+                        <UserAvatarCard
+                            key={room._id}
+                            cardClassNames={
+                                activeRoom === room._id
+                                    ? "bg-header_background"
+                                    : ""
+                            }
+                            name={room.participants?.[0]?.name}
+                            role={
+                                room.participants?.[0]?.professional_information
+                                    ?.role
+                            }
+                            link={generateUrl("messages", {
+                                room_id: room._id,
+                            })}
+                        />
+                    ))}
                 </Sidebar>
             </div>
         </div>

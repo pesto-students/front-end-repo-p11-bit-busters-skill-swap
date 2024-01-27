@@ -1,5 +1,6 @@
 import { Avatar, Card } from "keep-react";
 import React from "react";
+import { Link } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
 
 const UserAvatarCard = ({
@@ -8,8 +9,9 @@ const UserAvatarCard = ({
     role,
     profile_image,
     avatar_size = "md",
+    link,
 }) => {
-    return (
+    const CardContent = () => (
         <Card
             className={twMerge(
                 `max-w-xs px-6 py-4 md:max-w-lg rounded-none border-none`,
@@ -35,6 +37,13 @@ const UserAvatarCard = ({
                 </Card.Container>
             </Card.Container>
         </Card>
+    );
+    return link ? (
+        <Link to={link} className="no-underline">
+            <CardContent />
+        </Link>
+    ) : (
+        <CardContent />
     );
 };
 

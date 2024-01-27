@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { twMerge } from "tailwind-merge";
 import Loader from "../Loader/Loader";
+import { debounce } from "lodash";
 
 const InfiniteScrollComponent = ({
     fetchMoreData,
@@ -9,34 +10,45 @@ const InfiniteScrollComponent = ({
     children,
     containerClasses,
     isLoading,
+    reverse = false,
+    scrollRef = window,
 }) => {
     const containerRef = useRef(null);
 
-    const checkIfBottomReached = () => {
+    const checkIfEdgeReached = () => {
         const container = containerRef.current;
         if (!container) return false;
 
-        const rect = container.getBoundingClientRect();
-        return rect.bottom <= window.innerHeight;
+        if (reverse) {
+            return scrollRef.scrollTop <= 400;
+        } else {
+            const rect = container.getBoundingClientRect();
+            return rect.bottom <= window.innerHeight;
+        }
     };
 
     const handleScroll = async () => {
-        if (checkIfBottomReached() && !isLoading && hasMore) {
+        if (checkIfEdgeReached() && !isLoading && hasMore) {
             fetchMoreData();
         }
     };
 
+    const debouncedHandleScroll = useCallback(
+        debounce(handleScroll, 200),
+        [isLoading, hasMore]
+    );
+   
     useEffect(() => {
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
+        scrollRef.addEventListener("scroll", debouncedHandleScroll);
+        return () => scrollRef.removeEventListener("scroll", debouncedHandleScroll);
     }, [isLoading, hasMore]);
 
     useEffect(() => {
-        handleScroll();
+        debouncedHandleScroll();
     }, [children]);
 
     return (
-        <>
+        <div className={`flex ${reverse ? "flex-col-reverse" : "flex-col "}`}>
             <div
                 className={twMerge(
                     `infinite-scroll-container`,
@@ -44,14 +56,16 @@ const InfiniteScrollComponent = ({
                 )}
                 ref={containerRef}
             >
+                {!hasMore && reverse && endMessage}
+
                 {children}
 
-                {!hasMore && endMessage}
+                {!hasMore && !reverse && endMessage}
             </div>
-            <div className="my-6">
+            <div className={`my-6 ${isLoading ? "" : "hidden"}`}>
                 <Loader loading={isLoading} fullPageLoader={false} />
             </div>
-        </>
+        </div>
     );
 };
 

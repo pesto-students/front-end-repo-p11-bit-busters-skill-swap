@@ -1,96 +1,112 @@
-import { Avatar, Button } from "keep-react";
+import { Avatar, Button, Typography } from "keep-react";
 import React from "react";
 import { DownloadSimple } from "phosphor-react";
 import FileIcon from "./FileIcon";
+import { connect } from "react-redux";
+import moment from "moment";
+import InfiniteScrollComponent from "../InfiniteScrollComponent/InfiniteScrollComponent";
 
-const ShowMessages = () => {
+const ShowMessages = ({ messages, auth, pagination, fetchMoreData, loading, scrollRef }) => {
     return (
-        <div className="p-4">
-            <MessageContainer data={{ content_type: "text" }} />
-            <MessageContainer
-                data={{ content_type: "image" }}
-                showImage={true}
-            />
-            <MessageContainer
-                data={{ content_type: "text" }}
-                isFromAuth={true}
-                showImage={true}
-            />
-            <MessageContainer
-                data={{ content_type: "text" }}
-                showImage={true}
-            />
-            <MessageContainer
-                data={{ content_type: "file", file_name: "Tailwind.pdf" }}
-                isFromAuth={true}
-            />
-            <MessageContainer
-                data={{ content_type: "text" }}
-                isFromAuth={true}
-                showImage={true}
-            />
-        </div>
+        <InfiniteScrollComponent
+            dataLength={pagination?.total_docs || 0}
+            fetchMoreData={fetchMoreData}
+            hasMore={pagination?.hasNextPage || false}
+            endMessage={
+                messages.length > 0 && (
+                    <div className="text-center rounded text-blue-600 border-slate-300 col-span-3">
+                        <Typography
+                            variant="paragraph-1"
+                            className="font-medium text-blue-400"
+                        >
+                            You have reached the first message.
+                        </Typography>
+                    </div>
+                )
+            }
+            containerClasses="p-4"
+            isLoading={loading}
+            reverse={true}
+            scrollRef={scrollRef}
+        >
+            {messages.map((messages_by_sender) => {
+                return messages_by_sender.messages.map((message, index) => (
+                    <MessageContainer
+                        key={message._id}
+                        data={message}
+                        isFromAuth={
+                            messages_by_sender.sender_id === auth?.user?._id
+                        }
+                        showAvatar={
+                            messages_by_sender.messages.length === index + 1
+                        }
+                    />
+                ));
+            })}
+        </InfiniteScrollComponent>
     );
 };
 
-const MessageContainer = ({ data, showImage, isFromAuth }) => (
+const MessageContainer = ({ data, showAvatar, isFromAuth }) => (
     <div
         className={`w-5/6 lg:w-2/3 xl:w-2/3 2xl:w-1/3 my-4 ${
             isFromAuth ? "ml-auto" : ""
         }`}
     >
         <div className={`flex gap-2 ${isFromAuth ? "flex-row-reverse" : ""}`}>
-            <AvatarContainer showImage={showImage} />
-            {data.content_type === "image" && <ImageMessage />}
-            {data.content_type === "text" && <TextMessage />}
+            <AvatarContainer showAvatar={showAvatar} />
+            {data.content_type === "image" && (
+                <ImageMessage image={data.file_url} />
+            )}
+            {data.content_type === "text" && <TextMessage text={data.text} />}
             {data.content_type === "file" && (
-                <FileMessage file_name={data.file_name} />
+                <FileMessage
+                    file_name={data.file_name}
+                    file_url={data.file_url}
+                />
             )}
         </div>
         <div className={`flex gap-2 ${isFromAuth ? "flex-row-reverse" : ""}`}>
             <div className="w-10"></div>
             <div className={`flex-1 px-1 ${isFromAuth ? "text-end" : ""}`}>
-                <p className="text-xs text-slate-400">3:23PM</p>
+                <p className="text-xs text-slate-400">
+                    {moment(data.createdAt).format("DD MMM YYYY hh:mm a")}
+                </p>
             </div>
         </div>
     </div>
 );
 
-const TextMessage = () => (
+const TextMessage = ({ text }) => (
     <div className="flex-1 bg-slate-50 border border-slate-100 p-4 rounded">
-        <p className="text-slate-800 text-sm ">
-            Hey, I need your helping in understanding basis of Tailwind. Can you
-            help me?
-        </p>
+        <p className="text-slate-800 text-sm ">{text}</p>
     </div>
 );
 
-const ImageMessage = () => (
+const ImageMessage = ({ image }) => (
     <div className="flex-1 bg-slate-50 border border-slate-100 rounded h-52">
-        <img
-            src="https://2.img-dpreview.com/files/p/E~C1000x0S4000x4000T1200x1200~articles/3925134721/0266554465.jpeg"
-            className="w-full h-[100%] object-cover rounded"
-        />
+        <img src={image} className="w-full h-[100%] object-cover rounded" />
     </div>
 );
 
-const FileMessage = ({ file_name }) => (
+const FileMessage = ({ file_name, file_url }) => (
     <div className="flex-1 bg-slate-50 border border-slate-100 rounded flex p-4 gap-4">
         <FileIcon file_name={file_name} />
-        <p className="font-semibold text-sm text-slate-700 flex-1">
+        <p className="font-semibold text-sm text-slate-700 max-w-xs flex-1 truncate">
             {file_name}
         </p>
-        <button
-            type="button"
-            className="flex items-center justify-center p-0 m-0 border-none outline-none"
+        <a
+            href={file_url}
+            download={file_name}
+            className="flex items-center justify-center p-0 ml-auto border-none outline-none"
         >
             <DownloadSimple size={20} />
-        </button>
+        </a>
     </div>
 );
 
-const AvatarContainer = ({ showImage }) => {
-    if (showImage) {
+const AvatarContainer = ({ showAvatar }) => {
+    if (showAvatar) {
         return (
             <div className="w-10 flex items-end">
                 <Avatar
@@ -104,4 +120,8 @@ const AvatarContainer = ({ showImage }) => {
     return <div className="w-10"></div>;
 };
 
-export default ShowMessages;
+const mapStateToProps = (state) => ({
+    auth: state.auth,
+});
+
+export default connect(mapStateToProps)(ShowMessages);

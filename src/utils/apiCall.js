@@ -24,6 +24,7 @@ const apiCall = async (dispatch, method, url, data, actionTypes, successCallback
             dispatch({ type: FAILURE, payload: response.data.errors });
         }
     } catch (error) {
+        console.log(error);
         const errorMessage = error.response?.data?.status === 400
             ? error.response.data
             : 'An error occurred during the API call.';

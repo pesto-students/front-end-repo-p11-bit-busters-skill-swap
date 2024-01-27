@@ -248,8 +248,8 @@ const EditProfile = ({ user, updateUserProfile }) => {
                 <Breadcrumb
                     separatorIcon={<CaretRight size={20} color="#AFBACA" />}
                 >
-                    <Breadcrumb.Item>
-                        <Link to={generateUrl("profile")} active={true}>Profile</Link>
+                    <Breadcrumb.Item active={true}>
+                        <Link to={generateUrl("profile")} >Profile</Link>
                     </Breadcrumb.Item>
                 </Breadcrumb>
                 <div>
