@@ -60,7 +60,7 @@ const ViewProfile = ({ users, getUserProfile, createRoom, messageRoom }) => {
     }, [user_id]);
 
     const message = () => {
-        if (user.room) {
+        if (user?.room) {
             navigate(
                 generateUrl("messages", {
                     room_id: user.room._id,
@@ -316,14 +316,21 @@ const ViewProfile = ({ users, getUserProfile, createRoom, messageRoom }) => {
                             iconPosition="left"
                         >
                             <Tabs.Item title="Projects" className="p-6">
-                                <ProjectsTab projects={user?.projects} />
+                                <ProjectsTab
+                                    projects={user?.projects}
+                                    user={user}
+                                />
                             </Tabs.Item>
                             <Tabs.Item title="Education" className="p-6">
-                                <EducationTab education={user?.education} />
+                                <EducationTab
+                                    education={user?.education}
+                                    user={user}
+                                />
                             </Tabs.Item>
                             <Tabs.Item title="Certifications" className="p-6">
                                 <CertificationTab
                                     certifications={user?.certifications}
+                                    user={user}
                                 />
                             </Tabs.Item>
                         </Tabs>

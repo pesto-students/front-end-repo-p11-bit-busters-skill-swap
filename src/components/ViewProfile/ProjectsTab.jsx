@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import TextContent from "./TextContent";
 import { Link as LinkIcon } from "phosphor-react";
 
-const ProjectsTab = ({ projects }) => {
+const ProjectsTab = ({ projects, user }) => {
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {projects?.map((project) => (

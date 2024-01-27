@@ -2,7 +2,7 @@ import React from "react";
 import TextContent from "./TextContent";
 import moment from "moment";
 
-const CertificationTab = ({ certifications }) => {
+const CertificationTab = ({ certifications, user }) => {
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {certifications?.map((certification) => (

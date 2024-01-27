@@ -8,11 +8,20 @@ import UserAvatarCard from "../../components/UserAvatarCard/UserAvatarCard";
 import SendMessagesForm from "../../components/Messages/SendMessagesForm";
 import ShowMessages from "../../components/Messages/ShowMessages";
 import { connect } from "react-redux";
-import { getRooms, getMessages, newMessageReceived } from "../../redux/actions/messageRoomAction";
+import {
+    getRooms,
+    getMessages,
+    newMessageReceived,
+} from "../../redux/actions/messageRoomAction";
 import Loader from "../../components/Loader/Loader";
 import { io } from "socket.io-client";
 
-const Messages = ({ getRooms, messageRoom, getMessages, newMessageReceived }) => {
+const Messages = ({
+    getRooms,
+    messageRoom,
+    getMessages,
+    newMessageReceived,
+}) => {
     const params = useParams();
     const messagesContainerRef = useRef();
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -30,26 +39,27 @@ const Messages = ({ getRooms, messageRoom, getMessages, newMessageReceived }) =>
     }, []);
 
     useEffect(() => {
-        setIsFromFetchMoreData(false);
-        getMessages(formData, room_id);
+        if (room_id) {
+            setIsFromFetchMoreData(false);
+            getMessages(formData, room_id);
 
-        const socket = io(import.meta.env.VITE_APP_SOCKET_URL, {
-            auth: { token: token },
-        });
-        socket.on("connection", () => {
-           console.log('socket connection established')
-        });
-        socket.emit("join_message_room", {
-            room_id: room_id
-        });
-        socket.on("new-message", (message) => {
-            newMessageReceived(message)
-        });
+            const socket = io(import.meta.env.VITE_APP_SOCKET_URL, {
+                auth: { token: token },
+            });
+            socket.on("connection", () => {
+                console.log("socket connection established");
+            });
+            socket.emit("join_message_room", {
+                room_id: room_id,
+            });
+            socket.on("new-message", (message) => {
+                newMessageReceived(message);
+            });
 
-        
-        return () => {
-            socket.disconnect();
-        };
+            return () => {
+                socket.disconnect();
+            };
+        }
     }, [room_id]);
 
     const toggleSidebar = () => {
@@ -94,9 +104,9 @@ const Messages = ({ getRooms, messageRoom, getMessages, newMessageReceived }) =>
     };
 
     useEffect(() => {
-        if(!isFromFetchMoreData && messagesContainerRef?.current){
+        if (!isFromFetchMoreData && messagesContainerRef?.current) {
             messagesContainerRef.current.scrollTop =
-            messagesContainerRef.current.scrollHeight;
+                messagesContainerRef.current.scrollHeight;
         }
     }, [messageList, messagesContainerRef?.current]);
 
@@ -180,7 +190,12 @@ const Messages = ({ getRooms, messageRoom, getMessages, newMessageReceived }) =>
                                             }
                                         />
                                     </div>
-                                    <SendMessagesForm room_id={room_id} setIsFromFetchMoreData={setIsFromFetchMoreData}/>
+                                    <SendMessagesForm
+                                        room_id={room_id}
+                                        setIsFromFetchMoreData={
+                                            setIsFromFetchMoreData
+                                        }
+                                    />
                                 </div>
                             )}
                         </div>
