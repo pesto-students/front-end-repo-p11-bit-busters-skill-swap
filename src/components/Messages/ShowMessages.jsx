@@ -6,7 +6,14 @@ import { connect } from "react-redux";
 import moment from "moment";
 import InfiniteScrollComponent from "../InfiniteScrollComponent/InfiniteScrollComponent";
 
-const ShowMessages = ({ messages, auth, pagination, fetchMoreData, loading, scrollRef }) => {
+const ShowMessages = ({
+    messages,
+    auth,
+    pagination,
+    fetchMoreData,
+    loading,
+    scrollRef,
+}) => {
     return (
         <InfiniteScrollComponent
             dataLength={pagination?.total_docs || 0}
@@ -28,6 +35,7 @@ const ShowMessages = ({ messages, auth, pagination, fetchMoreData, loading, scro
             isLoading={loading}
             reverse={true}
             scrollRef={scrollRef}
+            loadMoreButton={true}
         >
             {messages.map((messages_by_sender) => {
                 return messages_by_sender.messages.map((message, index) => (
@@ -48,12 +56,14 @@ const ShowMessages = ({ messages, auth, pagination, fetchMoreData, loading, scro
 };
 
 const MessageContainer = ({ data, showAvatar, isFromAuth }) => (
-    <div
-        className={`w-5/6 lg:w-2/3 xl:w-2/3 2xl:w-1/3 my-4 ${
-            isFromAuth ? "ml-auto" : ""
-        }`}
-    >
-        <div className={`flex gap-2 ${isFromAuth ? "flex-row-reverse" : ""}`}>
+    <div className={`my-4`}>
+        <div
+            className={`flex gap-2 ${isFromAuth ? "flex-row-reverse" : ""} ${
+                data.content_type !== "text"
+                    ? `w-5/6 lg:w-2/3 xl:w-2/3 2xl:w-1/3`
+                    : "w-fit"
+            } ${isFromAuth ? "ml-auto text-end" : ""}`}
+        >
             <AvatarContainer showAvatar={showAvatar} />
             {data.content_type === "image" && (
                 <ImageMessage image={data.file_url} />

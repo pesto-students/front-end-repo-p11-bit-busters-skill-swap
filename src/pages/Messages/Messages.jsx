@@ -27,6 +27,7 @@ const Messages = ({
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [messageList, setMessageList] = useState([]);
     const [isFromFetchMoreData, setIsFromFetchMoreData] = useState(false);
+    const [lastMessagePosition, setLastMessagePosition] = useState(0);
     const token = localStorage.getItem("access_token");
     const { room_id } = params;
     const [formData, setFormData] = useState({
@@ -97,6 +98,7 @@ const Messages = ({
 
     const fetchMoreData = () => {
         setIsFromFetchMoreData(true);
+        setLastMessagePosition(messagesContainerRef.current.scrollHeight);
         const data = formData;
         data.page = data.page + 1;
         setFormData(data);
@@ -107,6 +109,8 @@ const Messages = ({
         if (!isFromFetchMoreData && messagesContainerRef?.current) {
             messagesContainerRef.current.scrollTop =
                 messagesContainerRef.current.scrollHeight;
+        }else if(messagesContainerRef?.current){
+            messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight - lastMessagePosition;
         }
     }, [messageList, messagesContainerRef?.current]);
 

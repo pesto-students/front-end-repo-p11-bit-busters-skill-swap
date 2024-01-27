@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useEffect, useRef } from "react";
 import { twMerge } from "tailwind-merge";
 import Loader from "../Loader/Loader";
-import { debounce } from "lodash";
+import { Button, Typography } from "keep-react";
 
 const InfiniteScrollComponent = ({
     fetchMoreData,
@@ -12,6 +12,7 @@ const InfiniteScrollComponent = ({
     isLoading,
     reverse = false,
     scrollRef = window,
+    loadMoreButton = false,
 }) => {
     const containerRef = useRef(null);
 
@@ -20,7 +21,7 @@ const InfiniteScrollComponent = ({
         if (!container) return false;
 
         if (reverse) {
-            return scrollRef.scrollTop <= 400;
+            return scrollRef.scrollTop <= 100;
         } else {
             const rect = container.getBoundingClientRect();
             return rect.bottom <= window.innerHeight;
@@ -28,23 +29,18 @@ const InfiniteScrollComponent = ({
     };
 
     const handleScroll = async () => {
-        if (checkIfEdgeReached() && !isLoading && hasMore) {
+        if (checkIfEdgeReached() && !isLoading && hasMore && !loadMoreButton) {
             fetchMoreData();
         }
     };
 
-    const debouncedHandleScroll = useCallback(
-        debounce(handleScroll, 200),
-        [isLoading, hasMore]
-    );
-   
     useEffect(() => {
-        scrollRef.addEventListener("scroll", debouncedHandleScroll);
-        return () => scrollRef.removeEventListener("scroll", debouncedHandleScroll);
+        scrollRef.addEventListener("scroll", handleScroll);
+        return () => scrollRef.removeEventListener("scroll", handleScroll);
     }, [isLoading, hasMore]);
 
     useEffect(() => {
-        debouncedHandleScroll();
+        handleScroll();
     }, [children]);
 
     return (
@@ -56,6 +52,15 @@ const InfiniteScrollComponent = ({
                 )}
                 ref={containerRef}
             >
+                {loadMoreButton && hasMore && (
+                    <Button
+                        type="outline"
+                        className="text-blue-700 text-center cursor-pointer mx-auto"
+                        onClick={fetchMoreData}
+                    >
+                        Load More
+                    </Button>
+                )}
                 {!hasMore && reverse && endMessage}
 
                 {children}
