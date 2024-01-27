@@ -94,11 +94,11 @@ const Messages = ({ getRooms, messageRoom, getMessages, newMessageReceived }) =>
     };
 
     useEffect(() => {
-        if(!isFromFetchMoreData){
+        if(!isFromFetchMoreData && messagesContainerRef?.current){
             messagesContainerRef.current.scrollTop =
             messagesContainerRef.current.scrollHeight;
         }
-    }, [messageList]);
+    }, [messageList, messagesContainerRef?.current]);
 
     useEffect(() => {
         const messages = groupMessagesBySenderConsecutively(
