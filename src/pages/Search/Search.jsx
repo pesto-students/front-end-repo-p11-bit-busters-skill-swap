@@ -128,23 +128,25 @@ const Search = ({ searchUser, users, auth }) => {
                                 </div>
                             )
                         }
-                        containerClasses="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"
+                        
                         isLoading={users?.append_loading}
                     >
-                        {users.users.map((user) => (
-                            <UserCard key={user._id} user={user} />
-                        ))}
-                        {users.users.length === 0 && (
-                            <div className="border border-dashed text-center p-6 my-6 rounded text-blue-600 border-slate-300 col-span-3">
-                                <Typography
-                                    variant="paragraph-1"
-                                    className="font-medium text-blue-400"
-                                >
-                                    Please change filters and try searching
-                                    again.
-                                </Typography>
-                            </div>
-                        )}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                            {users.users.map((user) => (
+                                <UserCard key={user._id} user={user} />
+                            ))}
+                            {users.users.length === 0 && (
+                                <div className="border border-dashed text-center p-6 my-6 rounded text-blue-600 border-slate-300 col-span-3">
+                                    <Typography
+                                        variant="paragraph-1"
+                                        className="font-medium text-blue-400"
+                                    >
+                                        Please change filters and try searching
+                                        again.
+                                    </Typography>
+                                </div>
+                            )}
+                        </div>
                     </InfiniteScrollComponent>
                 </div>
             </div>
