@@ -11,6 +11,7 @@ import EditProfile from "../../pages/EditProfile/EditProfile";
 import Search from "../../pages/Search/Search";
 import ViewProfile from "../../pages/ViewProfile/ViewProfile";
 import Messages from "../../pages/Messages/Messages";
+import Sessions from "../../pages/Sessions/Sessions";
 
 const AppRouter = () => {
     return (
@@ -28,6 +29,7 @@ const AppRouter = () => {
                         <Route exact path={routes.profile} element={<EditProfile />} />
                         <Route exact path={routes.user_profile} element={<ViewProfile />} />
                         <Route exact path={routes.messages} element={<Messages />} />
+                        <Route exact path={routes.sessions} element={<Sessions />} />
                         {/* <Route element={<IsAdmin />}></Route> */}
                     </Route>
                 </Route>

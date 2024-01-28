@@ -7,6 +7,7 @@ export const routes = {
     profile: "/profile",
     user_profile: "/profile/:user_id",
     messages: "/messages/:room_id?",
+    sessions: "/sessions",
 };
 
 const generateUrl = (routeName, params = {}) => {

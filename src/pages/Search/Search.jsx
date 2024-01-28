@@ -63,7 +63,7 @@ const Search = ({ searchUser, users, auth }) => {
                     </Breadcrumb.Item>
                 </Breadcrumb>
             </div>
-            <div className="flex flex-col md:flex-row w-full lg:w-4/5 mx-auto relative gap-6 py-6 px-6">
+            <div className="flex flex-col md:flex-row w-full lg:w-4/5 mx-auto relative gap-6 p-6">
                 <div className="w-full md:w-1/4 ">
                     <div className="rounded-lg shadow-xl border border-slate-50 p-6 bg-white">
                         <SelectAsyncComponent

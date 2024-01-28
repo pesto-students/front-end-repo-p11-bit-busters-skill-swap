@@ -7,7 +7,7 @@ import {
     Typography,
 } from "keep-react";
 import React, { useEffect, useRef, useState } from "react";
-import { CaretRight, Info, Link as LinkIcon } from "phosphor-react";
+import { CaretRight, Info } from "phosphor-react";
 import generateUrl from "../../utils/routes";
 import banner from "../../assets/images/profile/banner.svg";
 import { connect } from "react-redux";
@@ -21,12 +21,14 @@ import CertificationTab from "../../components/ViewProfile/CertificationTab";
 import TextContent from "../../components/ViewProfile/TextContent";
 import { createRoom } from "../../redux/actions/messageRoomAction";
 import Swal from "sweetalert2";
+import CreateSessionModal from "../../components/Sessions/CreateSessionModal";
 
 const ViewProfile = ({ users, getUserProfile, createRoom, messageRoom }) => {
     const params = useParams();
     const navigate = useNavigate();
     const { user_id } = params;
     const [user, setUser] = useState(null);
+    const [showCreateSessionModal, setShowCreateSessionModal] = useState(false);
     const personalInformationRef = useRef();
     const [personalInformationHeight, setPersonalInformationHeight] =
         useState(0);
@@ -95,6 +97,10 @@ const ViewProfile = ({ users, getUserProfile, createRoom, messageRoom }) => {
                 }
             });
         }
+    };
+
+    const toogleShowCreateSessionModal = () => {
+        setShowCreateSessionModal((prev) => !prev);
     };
 
     return (
@@ -170,7 +176,7 @@ const ViewProfile = ({ users, getUserProfile, createRoom, messageRoom }) => {
                                                 value={user.about}
                                             />
                                         </div>
-                                        <div className="pt-6 flex justify-center">
+                                        <div className="pt-6 flex justify-center gap-6">
                                             <Button
                                                 type="primary"
                                                 onClick={message}
@@ -179,6 +185,16 @@ const ViewProfile = ({ users, getUserProfile, createRoom, messageRoom }) => {
                                                     ? "Message"
                                                     : "Start Messaging"}
                                             </Button>
+                                            {user?.room && (
+                                                <Button
+                                                    type="primary"
+                                                    onClick={
+                                                        toogleShowCreateSessionModal
+                                                    }
+                                                >
+                                                    Request Session
+                                                </Button>
+                                            )}
                                         </div>
                                         <div className="p-6">
                                             <div className="font-medium text-2xl md:text-heading-6 flex items-center gap-4">
@@ -337,7 +353,11 @@ const ViewProfile = ({ users, getUserProfile, createRoom, messageRoom }) => {
                     </div>
                 </div>
             )}
-
+            <CreateSessionModal
+                toogleShowCreateSessionModal={toogleShowCreateSessionModal}
+                showCreateSessionModal={showCreateSessionModal}
+                user_id={user_id}
+            />
             <Loader loading={users.loading || messageRoom.loading} />
         </div>
     );

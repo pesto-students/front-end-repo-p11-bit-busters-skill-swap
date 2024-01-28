@@ -1,150 +1,113 @@
 import {
-    CREATE_ROOM_REQUEST,
-    CREATE_ROOM_SUCCESS,
-    CREATE_ROOM_FAILURE,
-    GET_ROOMS_REQUEST,
-    GET_ROOMS_SUCCESS,
-    GET_ROOMS_FAILURE,
-    GET_ROOM_MESSAGES_REQUEST,
-    GET_ROOM_MESSAGES_SUCCESS,
-    GET_ROOM_MESSAGES_FAILURE,
-    GET_ROOM_MESSAGES_REQUEST_APPEND,
-    GET_ROOM_MESSAGES_SUCCESS_APPEND,
-    ADD_MESSAGE_REQUEST,
-    ADD_MESSAGE_SUCCESS,
-    ADD_MESSAGE_FAILURE,
-    NEW_MESSAGE_RECEIVED,
-} from "../actions/messageRoomAction";
+    CREATE_SESSION_REQUEST,
+    CREATE_SESSION_SUCCESS,
+    CREATE_SESSION_FAILURE,
+    UDPATE_SESSION_STATUS_REQUEST,
+    UDPATE_SESSION_STATUS_SUCCESS,
+    UDPATE_SESSION_STATUS_FAILURE,
+    GET_SESSION_LIST_REQUEST,
+    GET_SESSION_LIST_SUCCESS,
+    GET_SESSION_LIST_FAILURE,
+    ADD_REVIEW_REQUEST,
+    ADD_REVIEW_SUCCESS,
+    ADD_REVIEW_FAILURE,
+} from "../actions/sessionAction";
 
 const initialState = {
     loading: false,
     successMessage: "",
-    messages: [],
-    rooms: [],
+    upcoming: [],
+    previous: [],
+    requests: [],
     errors: {},
-    pagination: {
-        currentPage: 1,
-        hasNextPage: false,
-        hasPrevPage: false,
-        limit: 0,
-        total_docs: 0,
-        total_pages: 0,
-    },
-    active_room: {},
-    message_loading: false,
 };
 
 const messageRoomReducer = (state = initialState, action) => {
     switch (action.type) {
-        case CREATE_ROOM_REQUEST:
+        case CREATE_SESSION_REQUEST:
             return {
                 ...state,
                 loading: true,
                 successMessage: "",
                 errors: {},
             };
-        case CREATE_ROOM_SUCCESS:
+        case CREATE_SESSION_SUCCESS:
             return {
                 ...state,
                 loading: false,
                 successMessage: action.payload.message,
                 errors: {},
             };
-        case CREATE_ROOM_FAILURE:
+        case CREATE_SESSION_FAILURE:
             return {
                 ...state,
                 loading: false,
                 successMessage: "",
                 errors: action.payload.errors,
             };
-        case GET_ROOMS_REQUEST:
-            return {
-                ...state,
-                loading: true,
-                rooms: [],
-                successMessage: "",
-                errors: {},
-            };
-        case GET_ROOMS_SUCCESS:
-            return {
-                ...state,
-                loading: false,
-                successMessage: action.payload.message,
-                rooms: action.payload.data.rooms,
-                errors: {},
-            };
-        case GET_ROOMS_FAILURE:
-            return {
-                ...state,
-                loading: false,
-                successMessage: "",
-                errors: action.payload.errors,
-            };
-        case GET_ROOM_MESSAGES_REQUEST:
-            return {
-                ...state,
-                loading: true,
-                successMessage: "",
-                messages: [],
-                errors: {},
-            };
-        case GET_ROOM_MESSAGES_SUCCESS:
-            return {
-                ...state,
-                loading: false,
-                successMessage: action.payload.message,
-                messages: action.payload.data.messages,
-                active_room: action.payload.data.room,
-                pagination: action.payload.data.pagination,
-                errors: {},
-            };
-        case GET_ROOM_MESSAGES_FAILURE:
-            return {
-                ...state,
-                loading: false,
-                successMessage: "",
-                errors: action.payload.errors,
-            };
-        case GET_ROOM_MESSAGES_REQUEST_APPEND:
-            return {
-                ...state,
-                message_loading: true,
-                successMessage: "",
-                errors: {},
-            };
-        case GET_ROOM_MESSAGES_SUCCESS_APPEND:
-            return {
-                ...state,
-                message_loading: false,
-                successMessage: action.payload.message,
-                messages: [...action.payload.data.messages, ...state.messages],
-                pagination: action.payload.data.pagination,
-                errors: {},
-            };
-        case ADD_MESSAGE_REQUEST:
+        case GET_SESSION_LIST_REQUEST:
             return {
                 ...state,
                 loading: true,
                 successMessage: "",
                 errors: {},
             };
-        case ADD_MESSAGE_SUCCESS:
+        case GET_SESSION_LIST_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                successMessage: action.payload.message,
+                [action.payload.data.status]: action.payload.data.sessions,
+                errors: {},
+            };
+        case GET_SESSION_LIST_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                successMessage: "",
+                errors: action.payload.errors,
+            };
+        case ADD_REVIEW_REQUEST:
+            return {
+                ...state,
+                loading: true,
+                successMessage: "",
+                errors: {},
+            };
+        case ADD_REVIEW_SUCCESS:
             return {
                 ...state,
                 loading: false,
                 successMessage: action.payload.message,
                 errors: {},
             };
-        case ADD_MESSAGE_FAILURE:
+        case ADD_REVIEW_FAILURE:
             return {
                 ...state,
                 loading: false,
+                successMessage: "",
                 errors: action.payload.errors,
             };
-        case NEW_MESSAGE_RECEIVED:
+        case UDPATE_SESSION_STATUS_REQUEST:
             return {
                 ...state,
-                messages: [...state.messages, action.payload.message],
+                loading: true,
+                successMessage: "",
+                errors: {},
+            };
+        case UDPATE_SESSION_STATUS_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                successMessage: action.payload.message,
+                errors: {},
+            };
+        case UDPATE_SESSION_STATUS_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                successMessage: "",
+                errors: action.payload.errors,
             };
         default:
             return state;

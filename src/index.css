@@ -7,11 +7,11 @@
     background-color: #006edc;
 }
 
-.react-date-picker__wrapper{
+.react-date-picker__wrapper, .react-datetime-picker__wrapper {
     border: none;
 }
 
-.react-date-picker__inputGroup__input{
+.react-date-picker__inputGroup__input, .react-datetime-picker__inputGroup__input {
     outline: none;
 }
 

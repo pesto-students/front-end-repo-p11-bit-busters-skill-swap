@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { User, MapPinLine, MagnifyingGlass } from "phosphor-react";
+import { VideoCamera, MagnifyingGlass, Chat } from "phosphor-react";
 import { Outlet } from "react-router-dom";
 import { connect } from "react-redux";
 import { logout } from "../../redux/actions/authAction";
@@ -22,13 +22,13 @@ const menu = [
         id: "message",
         label: "Messages",
         link: "/messages",
-        icon: <User size={24} />,
+        icon: <Chat size={24} />,
     },
     {
         id: "sessions",
         label: "Sessions",
-        link: "/sessions",
-        icon: <MapPinLine size={24} />,
+        link: generateUrl("sessions"),
+        icon: <VideoCamera size={24} />,
     },
 ];
 
