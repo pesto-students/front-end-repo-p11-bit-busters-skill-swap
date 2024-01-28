@@ -11,6 +11,9 @@ import {
     UPDATE_USER_PROFILE_REQUEST,
     UPDATE_USER_PROFILE_SUCCESS,
     UPDATE_USER_PROFILE_FAILURE,
+    UPDATE_USER_PROFILE_PICTURE_REQUEST,
+    UPDATE_USER_PROFILE_PICTURE_SUCCESS,
+    UPDATE_USER_PROFILE_PICTURE_FAILURE,
 } from "../actions/authAction";
 
 const initialState = {
@@ -113,6 +116,28 @@ const authReducer = (state = initialState, action) => {
                 errors: {},
             };
         case UPDATE_USER_PROFILE_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                successMessage: "",
+                errors: action.payload.errors,
+            };
+        case UPDATE_USER_PROFILE_PICTURE_REQUEST:
+            return {
+                ...state,
+                loading: true,
+                successMessage: "",
+                errors: {},
+            };
+        case UPDATE_USER_PROFILE_PICTURE_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                successMessage: action.payload.message,
+                user: action.payload.data.user,
+                errors: {},
+            };
+        case UPDATE_USER_PROFILE_PICTURE_FAILURE:
             return {
                 ...state,
                 loading: false,

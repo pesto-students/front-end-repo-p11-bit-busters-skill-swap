@@ -18,13 +18,16 @@ import SelectAsyncComponent from "../../components/FormElements/SelectAsyncCompo
 import skillSet from "../../utils/skillSet";
 import hobbySet from "../../utils/hobbySet";
 import moment from "moment";
-import { updateUserProfile } from "../../redux/actions/authAction";
+import {
+    updateUserProfile,
+    updateUserProfilePicture,
+} from "../../redux/actions/authAction";
 import Swal from "sweetalert2";
 import Loader from "../../components/Loader/Loader";
 import SkillScoreStatistic from "../../components/SkillScoreStatics/SkillScoreStatistic";
 import { Link } from "react-router-dom";
 
-const EditProfile = ({ user, updateUserProfile }) => {
+const EditProfile = ({ user, updateUserProfile, updateUserProfilePicture }) => {
     const personalInformationRef = useRef();
     const [personalInformationHeight, setPersonalInformationHeight] =
         useState(0);
@@ -241,6 +244,23 @@ const EditProfile = ({ user, updateUserProfile }) => {
         });
     };
 
+    const handleUploadImage = (e) => {
+        const file = e.target.files[0];
+        if (file.type.startsWith("image/")) {
+            updateUserProfilePicture(
+                {
+                    content_type: "image",
+                    profile_picture: file,
+                },
+                (response) => {
+                    Swal.fire("Success", response.message, "success");
+                }
+            );
+        } else {
+            Swal.fire("Error", "Please upload a valid image file", "error");
+        }
+    };
+
     return (
         <div className="">
             <div className="w-full bg-white px-6 flex justify-between items-center shadow-xl ">
@@ -249,7 +269,7 @@ const EditProfile = ({ user, updateUserProfile }) => {
                     separatorIcon={<CaretRight size={20} color="#AFBACA" />}
                 >
                     <Breadcrumb.Item active={true}>
-                        <Link to={generateUrl("profile")} >Profile</Link>
+                        <Link to={generateUrl("profile")}>Profile</Link>
                     </Breadcrumb.Item>
                 </Breadcrumb>
                 <div>
@@ -282,7 +302,11 @@ const EditProfile = ({ user, updateUserProfile }) => {
                                             <div className="w-40 h-40">
                                                 <Avatar
                                                     shape="circle"
-                                                    img={`https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg`}
+                                                    img={
+                                                        user?.user
+                                                            ?.profile_picture ||
+                                                        `https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg`
+                                                    }
                                                     className="w-full h-full"
                                                 />
                                             </div>
@@ -299,6 +323,7 @@ const EditProfile = ({ user, updateUserProfile }) => {
                                                 type="file"
                                                 className="hidden"
                                                 id="change_profile"
+                                                onChange={handleUploadImage}
                                             />
                                         </div>
                                     </div>
@@ -984,6 +1009,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
     updateUserProfile,
+    updateUserProfilePicture,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditProfile);

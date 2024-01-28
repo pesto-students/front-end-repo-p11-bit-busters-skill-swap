@@ -31,6 +31,16 @@ const CompletedSessionTab = ({ getSessions, session }) => {
                         </div>
                     </div>
                 ))}
+                 {session?.previous.length === 0 && (
+                    <div className="border border-dashed text-center p-6 my-6 rounded text-blue-700 border-slate-300 col-span-3">
+                        <Typography
+                            variant="body-4"
+                            className="font-medium text-blue-700"
+                        >
+                            You don't have any completed sessions.
+                        </Typography>
+                    </div>
+                )}
             </div>
         </>
     );

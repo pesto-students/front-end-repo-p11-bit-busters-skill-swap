@@ -43,8 +43,8 @@ const NavbarComponent = ({ logout, toggleSidebar, user, menu }) => {
                                     size="md"
                                     shape="circle"
                                     img={`${
-                                        user.user.profile_image ||
-                                        "https://randomuser.me/api/portraits/men/11.jpg"
+                                        user.user.profile_picture ||
+                                        "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg"
                                     }`}
                                 />
                             }
@@ -57,7 +57,7 @@ const NavbarComponent = ({ logout, toggleSidebar, user, menu }) => {
                                 avatar_size="lg"
                                 name={user.user.name}
                                 role={user.user?.professional_information?.role}
-                                profile_image={user.user.profile_image}
+                                profile_image={user.user.profile_picture}
                             />
                             <Dropdown.Item
                                 icon={

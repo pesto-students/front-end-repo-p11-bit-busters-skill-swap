@@ -64,7 +64,10 @@ const MessageContainer = ({ data, showAvatar, isFromAuth }) => (
                     : "w-fit"
             } ${isFromAuth ? "ml-auto text-end" : ""}`}
         >
-            <AvatarContainer showAvatar={showAvatar} />
+            <AvatarContainer
+                showAvatar={showAvatar}
+                profile_picture={data.sender_id.profile_picture}
+            />
             {data.content_type === "image" && (
                 <ImageMessage image={data.file_url} />
             )}
@@ -115,14 +118,17 @@ const FileMessage = ({ file_name, file_url }) => (
     </div>
 );
 
-const AvatarContainer = ({ showAvatar }) => {
+const AvatarContainer = ({ showAvatar, profile_picture }) => {
     if (showAvatar) {
         return (
             <div className="w-10 flex items-end">
                 <Avatar
                     size="md"
                     shape="circle"
-                    img={"https://randomuser.me/api/portraits/men/11.jpg"}
+                    img={
+                        profile_picture ||
+                        "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg"
+                    }
                 />
             </div>
         );

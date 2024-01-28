@@ -17,7 +17,10 @@ const UserCard = ({ user }) => {
                         <div className="w-20 h-20">
                             <Avatar
                                 shape="circle"
-                                img={`https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg`}
+                                img={
+                                    user.profile_picture ||
+                                    `https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg`
+                                }
                                 className="w-full h-full"
                             />
                         </div>

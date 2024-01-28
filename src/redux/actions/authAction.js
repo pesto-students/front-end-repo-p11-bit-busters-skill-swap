@@ -16,6 +16,11 @@ export const UPDATE_USER_PROFILE_REQUEST = "UPDATE_USER_PROFILE_REQUEST";
 export const UPDATE_USER_PROFILE_SUCCESS = "UPDATE_USER_PROFILE_SUCCESS";
 export const UPDATE_USER_PROFILE_FAILURE = "UPDATE_USER_PROFILE_FAILURE";
 
+export const UPDATE_USER_PROFILE_PICTURE_REQUEST = "UPDATE_USER_PROFILE_PICTURE_REQUEST";
+export const UPDATE_USER_PROFILE_PICTURE_SUCCESS = "UPDATE_USER_PROFILE_PICTURE_SUCCESS";
+export const UPDATE_USER_PROFILE_PICTURE_FAILURE = "UPDATE_USER_PROFILE_PICTURE_FAILURE";
+
+
 export const loginUser = (data, successCallback) => {
     return async (dispatch) => {
         const url = `auth/login`;
@@ -69,9 +74,17 @@ export const getAuthUserProfile = (successCallback) => {
             headers: {
                 Authorization: `${token}`,
             },
-        } 
+        };
 
-        await apiCall(dispatch, "GET", url, {}, actionTypes, successCallback, headers);
+        await apiCall(
+            dispatch,
+            "GET",
+            url,
+            {},
+            actionTypes,
+            successCallback,
+            headers
+        );
     };
 };
 
@@ -88,9 +101,17 @@ export const updateUserProfile = (data, successCallback) => {
             headers: {
                 Authorization: `${token}`,
             },
-        } 
+        };
 
-        await apiCall(dispatch, "POST", url, data, actionTypes, successCallback, headers);
+        await apiCall(
+            dispatch,
+            "POST",
+            url,
+            data,
+            actionTypes,
+            successCallback,
+            headers
+        );
     };
 };
 
@@ -98,5 +119,33 @@ export const logout = () => {
     return async (dispatch) => {
         localStorage.removeItem("access_token");
         window.location.href = "/login";
+    };
+};
+
+export const updateUserProfilePicture = (data, successCallback) => {
+    return async (dispatch) => {
+        const url = `user/profile_picture`;
+        const actionTypes = {
+            REQUEST: UPDATE_USER_PROFILE_PICTURE_REQUEST,
+            SUCCESS: UPDATE_USER_PROFILE_PICTURE_SUCCESS,
+            FAILURE: UPDATE_USER_PROFILE_PICTURE_FAILURE,
+        };
+        const token = localStorage.getItem("access_token");
+        const headers = {
+            headers: {
+                Authorization: `${token}`,
+                "Content-Type": "multipart/form-data",
+            },
+        };
+
+        await apiCall(
+            dispatch,
+            "POST",
+            url,
+            data,
+            actionTypes,
+            successCallback,
+            headers
+        );
     };
 };

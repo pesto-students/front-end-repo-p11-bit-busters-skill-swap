@@ -52,6 +52,7 @@ const MessagesSidebar = ({ toggleSidebar, sidebarOpen, rooms, activeRoom }) => {
                             link={generateUrl("messages", {
                                 room_id: room._id,
                             })}
+                            profile_image={room.participants?.[0]?.profile_picture}
                         />
                     ))}
                 </Sidebar>

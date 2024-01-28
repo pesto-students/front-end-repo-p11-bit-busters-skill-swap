@@ -24,7 +24,7 @@ const UserAvatarCard = ({
                     shape="circle"
                     img={
                         profile_image ||
-                        "https://randomuser.me/api/portraits/men/11.jpg"
+                        "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg"
                     }
                 />
                 <Card.Container className="ml-3">

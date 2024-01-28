@@ -146,7 +146,10 @@ const ViewProfile = ({ users, getUserProfile, createRoom, messageRoom }) => {
                                                 <div className="w-40 h-40">
                                                     <Avatar
                                                         shape="circle"
-                                                        img={`https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg`}
+                                                        img={
+                                                            user.profile_picture ||
+                                                            `https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg`
+                                                        }
                                                         className="w-full h-full"
                                                     />
                                                 </div>

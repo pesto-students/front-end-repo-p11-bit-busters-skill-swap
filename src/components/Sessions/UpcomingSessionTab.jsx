@@ -26,11 +26,24 @@ const UpcomingSessionTab = ({ getSessions, session }) => {
                         </Typography>
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                             {date_wise_session.sessions.map((session) => (
-                                <SessionCard session={session} key={session._id}/>
+                                <SessionCard
+                                    session={session}
+                                    key={session._id}
+                                />
                             ))}
                         </div>
                     </div>
                 ))}
+                {session?.upcoming.length === 0 && (
+                    <div className="border border-dashed text-center p-6 my-6 rounded text-blue-700 border-slate-300 col-span-3">
+                        <Typography
+                            variant="body-4"
+                            className="font-medium text-blue-700"
+                        >
+                            You don't have any upcoming sessions.
+                        </Typography>
+                    </div>
+                )}
             </div>
         </>
     );

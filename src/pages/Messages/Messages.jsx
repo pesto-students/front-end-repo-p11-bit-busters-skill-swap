@@ -1,4 +1,4 @@
-import { Breadcrumb } from "keep-react";
+import { Breadcrumb, Typography } from "keep-react";
 import React, { useEffect, useRef, useState } from "react";
 import { CaretRight, List } from "phosphor-react";
 import { Link, useParams } from "react-router-dom";
@@ -74,14 +74,14 @@ const Messages = ({
         messages.forEach((message) => {
             if (
                 !current_group ||
-                current_group.sender_id !== message.sender_id
+                current_group.sender_id !== message.sender_id._id
             ) {
                 if (current_group) {
                     grouped_messages.push(current_group);
                 }
 
                 current_group = {
-                    sender_id: message.sender_id,
+                    sender_id: message.sender_id._id,
                     messages: [message],
                 };
             } else {
@@ -109,8 +109,9 @@ const Messages = ({
         if (!isFromFetchMoreData && messagesContainerRef?.current) {
             messagesContainerRef.current.scrollTop =
                 messagesContainerRef.current.scrollHeight;
-        }else if(messagesContainerRef?.current){
-            messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight - lastMessagePosition;
+        } else if (messagesContainerRef?.current) {
+            messagesContainerRef.current.scrollTop =
+                messagesContainerRef.current.scrollHeight - lastMessagePosition;
         }
     }, [messageList, messagesContainerRef?.current]);
 
@@ -164,6 +165,11 @@ const Messages = ({
                                                 messageRoom?.active_room
                                                     ?.participants?.[0]?._id,
                                         })}
+                                        profile_image={
+                                            messageRoom?.active_room
+                                                ?.participants?.[0]
+                                                ?.profile_picture
+                                        }
                                     />
                                 )}
                                 <div className="lg:hidden px-6 flex items-center justify-center py-4">
@@ -200,6 +206,26 @@ const Messages = ({
                                             setIsFromFetchMoreData
                                         }
                                     />
+                                </div>
+                            )}
+                            {messageRoom?.rooms.length === 0 && (
+                                <div className="border border-dashed text-center p-6 my-6 rounded text-blue-700 border-slate-300 col-span-3 mx-6">
+                                    <Typography
+                                        variant="body-4"
+                                        className="font-medium text-blue-700"
+                                    >
+                                        You have not message anybody yet.
+                                    </Typography>
+                                </div>
+                            )}
+                            {!room_id && messageRoom?.rooms.length > 0 && (
+                                <div className="border border-dashed text-center p-6 my-6 rounded text-blue-700 border-slate-300 col-span-3 mx-6">
+                                    <Typography
+                                        variant="body-4"
+                                        className="font-medium text-blue-700"
+                                    >
+                                        Click on the user to see the messages.
+                                    </Typography>
                                 </div>
                             )}
                         </div>
