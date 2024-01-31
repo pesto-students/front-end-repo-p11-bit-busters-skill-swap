@@ -7,6 +7,9 @@ import {
     USER_PROFILE_FAILURE,
     USER_SEARCH_REQUEST_APPEND,
     USER_SEARCH_SUCCESS_APPEND,
+    GET_USER_REVIEW_REQUEST,
+    GET_USER_REVIEW_SUCCESS,
+    GET_USER_REVIEW_FAILURE,
 } from "../actions/userAction";
 
 const initialState = {
@@ -14,8 +17,17 @@ const initialState = {
     users: [],
     successMessage: "",
     user: {},
+    user_reviews: [],
     errors: {},
     pagination: {
+        currentPage: 1,
+        hasNextPage: false,
+        hasPrevPage: false,
+        limit: 0,
+        total_docs: 0,
+        total_pages: 0,
+    },
+    review_pagination: {
         currentPage: 1,
         hasNextPage: false,
         hasPrevPage: false,
@@ -48,7 +60,6 @@ const userReducer = (state = initialState, action) => {
             return {
                 ...state,
                 loading: false,
-                isLoggedIn: false,
                 successMessage: "",
                 errors: action.payload.errors,
             };
@@ -91,6 +102,31 @@ const userReducer = (state = initialState, action) => {
                 errors: action.payload.errors,
                 append_loading: false,
             };
+        case GET_USER_REVIEW_REQUEST:
+            return {
+                ...state,
+                loading: true,
+                successMessage: "",
+                errors: {},
+            };
+        case GET_USER_REVIEW_SUCCESS:
+            console.log(action.payload.data.reviews);
+            return {
+                ...state,
+                loading: false,
+                successMessage: action.payload.message,
+                user_reviews: action.payload.data.reviews,
+                review_pagination: action.payload.data.pagination,
+                errors: {},
+            };
+        case GET_USER_REVIEW_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                successMessage: "",
+                errors: action.payload.errors,
+            };
+
         default:
             return state;
     }

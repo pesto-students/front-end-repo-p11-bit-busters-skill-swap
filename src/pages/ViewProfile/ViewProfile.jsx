@@ -22,6 +22,7 @@ import TextContent from "../../components/ViewProfile/TextContent";
 import { createRoom } from "../../redux/actions/messageRoomAction";
 import Swal from "sweetalert2";
 import CreateSessionModal from "../../components/Sessions/CreateSessionModal";
+import ShowReviews from "../../components/ViewProfile/ShowReviews";
 
 const ViewProfile = ({ users, getUserProfile, createRoom, messageRoom }) => {
     const params = useParams();
@@ -354,6 +355,7 @@ const ViewProfile = ({ users, getUserProfile, createRoom, messageRoom }) => {
                             </Tabs.Item>
                         </Tabs>
                     </div>
+                    <ShowReviews user_id={user_id} />
                 </div>
             )}
             <CreateSessionModal
