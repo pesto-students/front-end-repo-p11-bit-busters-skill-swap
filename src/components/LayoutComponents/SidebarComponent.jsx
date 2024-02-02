@@ -1,14 +1,17 @@
-import React from 'react'
-import { Link, useLocation } from 'react-router-dom';
-import {
-    User,
-    ArrowLeft,
-    SignOut,
-} from "phosphor-react";
-import { Sidebar } from 'keep-react';
-import generateUrl from '../../utils/routes';
+import React from "react";
+import { Link, useLocation } from "react-router-dom";
+import { User, ArrowLeft, SignOut, UserPlus } from "phosphor-react";
+import { Sidebar } from "keep-react";
+import generateUrl from "../../utils/routes";
 
-const SidebarComponent = ({ user, toggleSidebar, sidebarOpen, logout, menu }) => {
+const SidebarComponent = ({
+    user,
+    toggleSidebar,
+    sidebarOpen,
+    logout,
+    menu,
+    isLoggedIn,
+}) => {
     const location = useLocation();
     return (
         <div
@@ -44,24 +47,48 @@ const SidebarComponent = ({ user, toggleSidebar, sidebarOpen, logout, menu }) =>
                             <Link to={item.link}>{item.label}</Link>
                         </Sidebar.Item>
                     ))}
-                    <Sidebar.Item
-                        as="div"
-                        icon={<User size={24} />}
-                        className="lg:hidden cursor-pointer"
-                    >
-                        <Link to={generateUrl('profile')}>Profile</Link>
-                    </Sidebar.Item>
-                    <Sidebar.Item
-                        icon={<SignOut size={24} />}
-                        onClick={logout}
-                        className="lg:hidden cursor-pointer"
-                    >
-                        Logout
-                    </Sidebar.Item>
+                    {isLoggedIn && (
+                        <>
+                            <Sidebar.Item
+                                as="div"
+                                icon={<User size={24} />}
+                                className="lg:hidden cursor-pointer"
+                            >
+                                <Link to={generateUrl("profile")}>Profile</Link>
+                            </Sidebar.Item>
+                            <Sidebar.Item
+                                icon={<SignOut size={24} />}
+                                onClick={logout}
+                                className="lg:hidden cursor-pointer"
+                            >
+                                Logout
+                            </Sidebar.Item>
+                        </>
+                    )}
+                    {!isLoggedIn && (
+                        <>
+                            <Sidebar.Item
+                                as="div"
+                                icon={<User size={24} />}
+                                className="lg:hidden cursor-pointer"
+                            >
+                                <Link to={generateUrl("login")}>Login</Link>
+                            </Sidebar.Item>
+                            <Sidebar.Item
+                                as="div"
+                                icon={<UserPlus size={24} />}
+                                className="lg:hidden cursor-pointer"
+                            >
+                                <Link to={generateUrl("register")}>
+                                    Register
+                                </Link>
+                            </Sidebar.Item>
+                        </>
+                    )}
                 </Sidebar.ItemGroup>
             </Sidebar>
         </div>
     );
 };
 
-export default SidebarComponent
+export default SidebarComponent;

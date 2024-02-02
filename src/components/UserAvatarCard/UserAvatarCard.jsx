@@ -26,6 +26,7 @@ const UserAvatarCard = ({
                         profile_image ||
                         "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg"
                     }
+                    className="object-cover"
                 />
                 <Card.Container className="ml-3">
                     <Card.Title className="text-body-5 font-semibold text-metal-800 md:text-body-4">

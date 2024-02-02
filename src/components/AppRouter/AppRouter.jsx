@@ -12,11 +12,15 @@ import Search from "../../pages/Search/Search";
 import ViewProfile from "../../pages/ViewProfile/ViewProfile";
 import Messages from "../../pages/Messages/Messages";
 import Sessions from "../../pages/Sessions/Sessions";
+import LandingPage from "../LandingPage/LandingPage";
 
 const AppRouter = () => {
     return (
         <Router>
             <Routes>
+                <Route element={<AppLayout />}>
+                    <Route exact path={routes.landing_page} element={<LandingPage />} />
+                </Route>
                 <Route exact path={generateUrl("login")} element={<Login />} />
                 <Route
                     exact

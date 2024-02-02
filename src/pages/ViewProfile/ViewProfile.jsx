@@ -151,7 +151,7 @@ const ViewProfile = ({ users, getUserProfile, createRoom, messageRoom }) => {
                                                             user.profile_picture ||
                                                             `https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg`
                                                         }
-                                                        className="w-full h-full"
+                                                        className="w-40 h-40 object-cover"
                                                     />
                                                 </div>
                                             </div>

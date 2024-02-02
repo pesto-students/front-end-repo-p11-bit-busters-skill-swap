@@ -11,6 +11,10 @@ export default {
             colors: {
                 header_background: "#E9EFF6",
             },
+            backgroundImage: {
+                header_background: "url('/src/assets/images/landing_page/header_background.svg')", 
+                header_bottom: "url('/src/assets/images/landing_page/header_bottom.png')", 
+            }
         },
     },
 };

@@ -23,7 +23,7 @@ const SessionCard = ({ session }) => {
                             session.other_user.profile_picture ||
                             `https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg`
                         }
-                        className="w-full h-full"
+                        className="w-20 h-20 object-cover"
                     />
                 </div>
                 <div>

@@ -129,6 +129,7 @@ const AvatarContainer = ({ showAvatar, profile_picture }) => {
                         profile_picture ||
                         "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg"
                     }
+                    className="object-cover"
                 />
             </div>
         );

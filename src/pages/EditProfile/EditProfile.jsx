@@ -307,12 +307,12 @@ const EditProfile = ({ user, updateUserProfile, updateUserProfilePicture }) => {
                                                             ?.profile_picture ||
                                                         `https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg`
                                                     }
-                                                    className="w-full h-full"
+                                                    className="w-40 h-40 object-cover"
                                                 />
                                             </div>
                                             <label
                                                 htmlFor="change_profile"
-                                                className="bg-[#E9EFF6] rounded-full flex items-center justify-center absolute p-2 right-0 bottom-0"
+                                                className="bg-[#E9EFF6] rounded-full flex items-center justify-center absolute p-2 right-0 bottom-0 cursor-pointer"
                                             >
                                                 <Camera
                                                     size={32}

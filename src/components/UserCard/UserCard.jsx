@@ -1,6 +1,5 @@
 import { Avatar, Typography } from "keep-react";
 import React from "react";
-import { Camera } from "phosphor-react";
 import { Link } from "react-router-dom";
 import generateUrl from "../../utils/routes";
 
@@ -21,7 +20,7 @@ const UserCard = ({ user }) => {
                                     user.profile_picture ||
                                     `https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg`
                                 }
-                                className="w-full h-full"
+                                className="w-20 h-20 object-cover"
                             />
                         </div>
                     </div>

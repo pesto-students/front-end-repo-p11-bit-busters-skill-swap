@@ -100,6 +100,7 @@ const AppLayout = ({ user, logout }) => {
                     sidebarOpen={sidebarOpen}
                     logout={logout}
                     menu={menu}
+                    isLoggedIn={user?.isLoggedIn}
                 />
                 <main className="w-full">
                     <Outlet />

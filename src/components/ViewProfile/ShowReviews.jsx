@@ -65,7 +65,7 @@ const Review = ({ review }) => (
                         review.review_by.profile_picture ||
                         `https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg`
                     }
-                    className="w-full h-full"
+                    className="w-16 h-16 object-cover"
                 />
             </div>
         </div>
