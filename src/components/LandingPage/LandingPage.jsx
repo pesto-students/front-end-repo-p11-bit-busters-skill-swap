@@ -129,9 +129,9 @@ const LandingPage = ({ getAuthUserProfile }) => {
                         variant="heading-4"
                         className="text-center font-bold mb-10 leading-relaxed"
                     >
-                        Empower Your Career Through{" "}
+                        Empowering Growth Through{" "}
                         <span className="text-blue-500">
-                            Mutual Mentorship.
+                            Sharing Knowledge.
                         </span>
                     </Typography>
                     <div className="flex gap-6 justify-center flex-col md:flex-row items-center">
