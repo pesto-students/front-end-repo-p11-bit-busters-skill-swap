@@ -2,6 +2,7 @@ import { Avatar, Button, Card, Timeline, Typography } from "keep-react";
 import React, { useEffect } from "react";
 import homePageImage from "../../assets/images/landing_page/homepage.png";
 import howWeWorkImage from "../../assets/images/landing_page/how_we_work_image.svg";
+import anand from "../../assets/images/landing_page/team_anand.jpg";
 import { getAuthUserProfile } from "../../redux/actions/authAction";
 import {
     Handshake,
@@ -18,6 +19,7 @@ import {
 } from "phosphor-react";
 import { Link as ScrollLink } from "react-scroll";
 import { connect } from "react-redux";
+import ContactUsForm from "./ContactUsForm";
 
 const LandingPage = ({ getAuthUserProfile }) => {
     const key_features = [
@@ -241,7 +243,7 @@ const LandingPage = ({ getAuthUserProfile }) => {
                     </div>
                 </div>
             </div>
-            <div className="bg-slate-100 py-10 px-10 md:px-0" >
+            <div className="bg-slate-100 py-10 px-10 md:px-0">
                 <div className="md:w-4/5 lg:w-3/4 xl:w-3/5 mx-auto">
                     <Typography
                         variant="heading-6"
@@ -254,10 +256,9 @@ const LandingPage = ({ getAuthUserProfile }) => {
                             <Card.Container className="flex items-center justify-center">
                                 <Avatar
                                     shape="circle"
-                                    img="https://randomuser.me/api/portraits/men/50.jpg"
-                                    statusPosition="bottom-right"
+                                    img={anand}
                                     size="2xl"
-                                    className="object-cover"
+                                    className="object-cover object-center"
                                 />
                             </Card.Container>
                             <Card.Container className="text-center">
@@ -296,13 +297,41 @@ const LandingPage = ({ getAuthUserProfile }) => {
                     </div>
                 </div>
             </div>
+            <div
+                className="bg-white bg-contact_us bg-no-repeat bg-cover py-10 px-10 md:px-0"
+                id="how_we_works"
+            >
+                <div className="">
+                    <Typography
+                        variant="heading-6"
+                        className="font-bold mb-10 leading-relaxed text-center"
+                    >
+                        Contact Us
+                    </Typography>
+                </div>
+                <div className="w-full px-6 md:w-1/2 lg:w-1/3 mx-auto">
+                    <ContactUsForm />
+                </div>
+            </div>
+            <div className="bg-slate-100 py-10 px-10 lg:px-64 text-center">
+                <Typography
+                    variant="body-5"
+                    className="font-bold leading-relaxed text-center"
+                >
+                    © 2024. All rights reserved. Developed by {" "}
+                    <a  
+                        href="https://anandbhagat.com"
+                        className="text-blue-400"
+                    >
+                        Anand Bhagat
+                    </a>
+                </Typography>
+            </div>
         </div>
     );
 };
 
-const mapStateToProps = (state) => ({
-   
-});
+const mapStateToProps = (state) => ({});
 
 const mapDispatchToProps = {
     getAuthUserProfile,

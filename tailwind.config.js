@@ -14,6 +14,7 @@ export default {
             backgroundImage: {
                 header_background: "url('/src/assets/images/landing_page/header_background.svg')", 
                 header_bottom: "url('/src/assets/images/landing_page/header_bottom.png')", 
+                contact_us: "url('/src/assets/images/landing_page/contact_us.svg')", 
             }
         },
     },
