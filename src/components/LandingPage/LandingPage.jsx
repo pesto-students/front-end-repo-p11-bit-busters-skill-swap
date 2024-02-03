@@ -74,7 +74,7 @@ const LandingPage = ({ getAuthUserProfile }) => {
         },
     ];
 
-    const how_we_works = [
+    const how_it_works = [
         {
             id: 1,
             title: "Register & Profile Setup",
@@ -151,7 +151,7 @@ const LandingPage = ({ getAuthUserProfile }) => {
                             </Button>
                         </ScrollLink>
                         <ScrollLink
-                            to="how_we_works"
+                            to="how_it_works"
                             smooth={true}
                             duration={500}
                             offset={-76}
@@ -162,7 +162,7 @@ const LandingPage = ({ getAuthUserProfile }) => {
                                 className="my-2 py-0 px-8 bg-white text-metal-800 hover:bg-slate-200"
                                 pill={true}
                             >
-                                How We Work?
+                                How It Works?
                             </Button>
                         </ScrollLink>
                     </div>
@@ -202,13 +202,13 @@ const LandingPage = ({ getAuthUserProfile }) => {
                     </div>
                 </div>
             </div>
-            <div className="bg-white py-10 px-10 md:px-0" id="how_we_works">
+            <div className="bg-white py-10 px-10 md:px-0" id="how_it_works">
                 <div className="">
                     <Typography
                         variant="heading-6"
                         className="font-bold mb-10 leading-relaxed text-center"
                     >
-                        How We Work ?
+                        How It Works ?
                     </Typography>
                 </div>
                 <div>
@@ -218,7 +218,7 @@ const LandingPage = ({ getAuthUserProfile }) => {
                                 timelineBarType="dashed"
                                 className="w-full lg:w-3/4 mx-auto"
                             >
-                                {how_we_works.map((step) => (
+                                {how_it_works.map((step) => (
                                     <Timeline.Item key={step.id}>
                                         <Timeline.Point icon={step.icon} />
                                         <Timeline.Content>
@@ -299,7 +299,6 @@ const LandingPage = ({ getAuthUserProfile }) => {
             </div>
             <div
                 className="bg-white bg-contact_us bg-no-repeat bg-cover py-10 px-10 md:px-0"
-                id="how_we_works"
             >
                 <div className="">
                     <Typography

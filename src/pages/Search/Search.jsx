@@ -100,6 +100,7 @@ const Search = ({ searchUser, users, auth }) => {
                             cacheOptions
                             onChange={handleChange}
                             loadOptions={handleLoadSkillOptions}
+                            isClearable={true}
                         />
                         <Button
                             size="sm"
