@@ -1,5 +1,7 @@
 import React from "react";
 import homePageImage from "../../assets/images/landing_page/homepage.png";
+import viewProfile from "../../assets/images/landing_page/view_profile.png";
+import editProfile from "../../assets/images/landing_page/edit_profile.png";
 import { Carousel } from "react-responsive-carousel";
 import { CaretLeft, CaretRight } from "phosphor-react";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
@@ -43,14 +45,15 @@ const AppCarousel = () => {
                     );
                 }}
             >
-                <img src={homePageImage} className="w-full" />
-                <img src={homePageImage} className="w-full" />
-                <img src={homePageImage} className="w-full" />
-                <img src={homePageImage} className="w-full" />
+                <Image src={homePageImage} />
+                <Image src={viewProfile} />
+                <Image src={editProfile} />
             </Carousel>
         </div>
     );
 };
+
+const Image = ({ src }) => <img src={src} className="w-full" />;
 
 const Dot = ({ handleClick, isSelected }) => (
     <button

@@ -1,10 +1,9 @@
-import { Avatar, Button, Card, Dropdown, Navbar } from "keep-react";
+import { Navbar } from "keep-react";
 import React from "react";
 import { Link } from "react-router-dom";
 import Logo from "../Logo/Logo";
-import generateUrl, { routes } from "../../utils/routes";
-import { User, List, SignOut } from "phosphor-react";
-import UserAvatarCard from "../UserAvatarCard/UserAvatarCard";
+import { List } from "phosphor-react";
+import RightSideContent from "./RightSideContent";
 
 const NavbarComponent = ({ logout, toggleSidebar, user, menu }) => {
     return (
@@ -31,70 +30,11 @@ const NavbarComponent = ({ logout, toggleSidebar, user, menu }) => {
                 </Navbar.Container>
 
                 <Navbar.Container className="flex items-center gap-3">
-                    <Navbar.Container
-                        tag="ul"
-                        className="lg:flex hidden items-center justify-between gap-5"
-                    >
-                        {user?.isLoggedIn && (
-                            <Dropdown
-                                label={
-                                    <Avatar
-                                        size="md"
-                                        shape="circle"
-                                        img={`${
-                                            user.user.profile_picture ||
-                                            "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg"
-                                        }`}
-                                        className="object-cover"
-                                    />
-                                }
-                                size="sm"
-                                type="linkPrimary"
-                                arrowIcon={false}
-                                className="bg-transparent hover:bg-transparent"
-                            >
-                                <UserAvatarCard
-                                    avatar_size="lg"
-                                    name={user.user.name}
-                                    role={
-                                        user.user?.professional_information
-                                            ?.role
-                                    }
-                                    profile_image={user.user.profile_picture}
-                                />
-                                <Dropdown.Item
-                                    icon={
-                                        <Link to={generateUrl("profile")}>
-                                            <User size={20} color="#444" />
-                                        </Link>
-                                    }
-                                >
-                                    <Link
-                                        to={generateUrl("profile")}
-                                        className="w-full"
-                                    >
-                                        Profile
-                                    </Link>
-                                </Dropdown.Item>
-                                <Dropdown.Item
-                                    icon={<SignOut size={20} />}
-                                    onClick={logout}
-                                >
-                                    Logout
-                                </Dropdown.Item>
-                            </Dropdown>
-                        )}
-                        {!user?.isLoggedIn && (
-                            <Link to={generateUrl('login')} className="py-2.5">
-                                <Button type="primary" size="xs">Login</Button>
-                            </Link>
-                        )}
-                        {!user?.isLoggedIn && (
-                            <Link to={generateUrl('register')} className="py-2.5">
-                                <Button type="primary" size="xs">Register</Button>
-                            </Link>
-                        )}
-                    </Navbar.Container>
+                    <RightSideContent
+                        isLoggedIn={user?.isLoggedIn}
+                        user={user?.user}
+                        logout={logout}
+                    />
                 </Navbar.Container>
                 <div className="lg:hidden">
                     <button onClick={toggleSidebar} className="outline-none">

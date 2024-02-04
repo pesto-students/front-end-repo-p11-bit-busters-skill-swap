@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { VideoCamera, MagnifyingGlass, Chat } from "phosphor-react";
+import {
+    VideoCamera,
+    MagnifyingGlass,
+    Chat,
+    User,
+    UserPlus,
+    Bell,
+} from "phosphor-react";
 import { Outlet } from "react-router-dom";
 import { connect } from "react-redux";
 import { logout } from "../../redux/actions/authAction";
@@ -17,18 +24,57 @@ const menu = [
         label: "Search",
         link: generateUrl("dashboard"),
         icon: <MagnifyingGlass size={24} />,
+        displayOn: ["mobile", "desktop"],
+        showFor: ["logged_in", "logged_out"],
     },
     {
         id: "message",
         label: "Messages",
         link: "/messages",
         icon: <Chat size={24} />,
+        displayOn: ["mobile", "desktop"],
+        showFor: ["logged_in", "logged_out"],
     },
     {
         id: "sessions",
         label: "Sessions",
         link: generateUrl("sessions"),
         icon: <VideoCamera size={24} />,
+        displayOn: ["mobile", "desktop"],
+        showFor: ["logged_in", "logged_out"],
+    },
+    {
+        id: "profile",
+        label: "Profile",
+        link: generateUrl("profile"),
+        icon: <User size={24} />,
+        show_on_all_view: false,
+        displayOn: ["mobile"],
+        showFor: ["logged_in"],
+    },
+    {
+        id: "notifications",
+        label: "Notifications",
+        link: generateUrl("notifications"),
+        icon: <Bell size={24} />,
+        displayOn: ["mobile"],
+        showFor: ["logged_in"],
+    },
+    {
+        id: "login",
+        label: "Login",
+        link: generateUrl("login"),
+        icon: <User size={24} />,
+        displayOn: ["mobile"],
+        showFor: ["logged_out"],
+    },
+    {
+        id: "register",
+        label: "Register",
+        link: generateUrl("register"),
+        icon: <UserPlus size={24} />,
+        displayOn: ["mobile"],
+        showFor: ["logged_out"],
     },
 ];
 
@@ -45,7 +91,7 @@ const AppLayout = ({ user, logout }) => {
             auth: { token: token },
         });
         socket.on("connection", () => {
-           console.log('socket connection established')
+            console.log("socket connection established");
         });
         socket.on("notification", (data) => {
             toast[data.type](data.message, {
@@ -85,13 +131,23 @@ const AppLayout = ({ user, logout }) => {
         };
     }, []);
 
+    const filterMenuItems = (items, is_logged_in, current_view) => {
+        return items?.filter((item) => {
+            const userStatus = is_logged_in ? "logged_in" : "logged_out";
+            return (
+                item.displayOn.includes(current_view) &&
+                item.showFor.includes(userStatus)
+            );
+        });
+    };
+
     return (
         <div className="bg-slate-100 min-h-screen">
             <NavbarComponent
                 logout={logout}
                 toggleSidebar={toggleSidebar}
                 user={user}
-                menu={menu}
+                menu={filterMenuItems(menu, user?.isLoggedIn, 'desktop')}
             />
             <div className="lg:grid">
                 <SidebarComponent
@@ -99,7 +155,7 @@ const AppLayout = ({ user, logout }) => {
                     toggleSidebar={toggleSidebar}
                     sidebarOpen={sidebarOpen}
                     logout={logout}
-                    menu={menu}
+                    menu={filterMenuItems(menu, user?.isLoggedIn, 'mobile')}
                     isLoggedIn={user?.isLoggedIn}
                 />
                 <main className="w-full">
