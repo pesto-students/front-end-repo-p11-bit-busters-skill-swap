@@ -9,6 +9,7 @@ export const routes = {
     user_profile: "/profile/:user_id",
     messages: "/messages/:room_id?",
     sessions: "/sessions",
+    notifications: "/notifications",
 };
 
 const generateUrl = (routeName, params = {}) => {
