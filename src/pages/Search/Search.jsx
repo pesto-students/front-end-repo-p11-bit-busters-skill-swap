@@ -63,13 +63,13 @@ const Search = ({ searchUser, users, auth }) => {
                     </Breadcrumb.Item>
                 </Breadcrumb>
             </div>
-            <div className="flex flex-col md:flex-row w-full lg:w-4/5 mx-auto relative gap-6 p-6">
-                <div className="w-full md:w-1/4 ">
-                    <div className="rounded-lg shadow-xl border border-slate-50 p-6 bg-white">
+            <div className="w-full lg:w-4/5 mx-auto relative p-6">
+                <div className="w-full mb-6">
+                    <div className="rounded-lg shadow-xl border border-slate-50 p-6 bg-white flex flex-col lg:flex-row gap-6 items-end">
                         <SelectAsyncComponent
                             label="Skills Offering"
                             placeholder="Select Skills"
-                            containerClassName="mb-6"
+                            containerClassName="w-full lg:w-2/5"
                             defaultOptions={[
                                 ...new Set([
                                     ...skillSet.slice(0, 10),
@@ -87,7 +87,7 @@ const Search = ({ searchUser, users, auth }) => {
                         <SelectAsyncComponent
                             label="Skills Seeking"
                             placeholder="Select Skills"
-                            containerClassName="mb-6"
+                            containerClassName="w-full lg:w-2/5"
                             defaultOptions={[
                                 ...new Set([
                                     ...skillSet.slice(0, 10),
@@ -105,14 +105,14 @@ const Search = ({ searchUser, users, auth }) => {
                         <Button
                             size="sm"
                             type="primary"
-                            className="py-0 w-full"
+                            className="py-0 w-full lg:w-1/5"
                             onClick={handleSearch}
                         >
                             Search
                         </Button>
                     </div>
                 </div>
-                <div className="w-full md:w-3/4">
+                <div className="w-full">
                     <InfiniteScrollComponent
                         dataLength={users?.pagination?.total_docs || 0}
                         fetchMoreData={fetchMoreData}
@@ -129,10 +129,9 @@ const Search = ({ searchUser, users, auth }) => {
                                 </div>
                             )
                         }
-                        
                         isLoading={users?.append_loading}
                     >
-                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 gap-6">
                             {users.users.map((user) => (
                                 <UserCard key={user._id} user={user} />
                             ))}

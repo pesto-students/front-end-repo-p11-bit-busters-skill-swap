@@ -1,6 +1,5 @@
 import { Avatar, Button, Card, Timeline, Typography } from "keep-react";
 import React, { useEffect } from "react";
-import homePageImage from "../../assets/images/landing_page/homepage.png";
 import howWeWorkImage from "../../assets/images/landing_page/how_we_work_image.svg";
 import anand from "../../assets/images/landing_page/team_anand.jpg";
 import { getAuthUserProfile } from "../../redux/actions/authAction";
@@ -20,6 +19,7 @@ import {
 import { Link as ScrollLink } from "react-scroll";
 import { connect } from "react-redux";
 import ContactUsForm from "./ContactUsForm";
+import AppCarousel from "./AppCarousel";
 
 const LandingPage = ({ getAuthUserProfile }) => {
     const key_features = [
@@ -168,11 +168,7 @@ const LandingPage = ({ getAuthUserProfile }) => {
                     </div>
                 </div>
                 <div className="flex justify-center bg-header_bottom bg-bottom bg-no-repeat">
-                    <img
-                        src={homePageImage}
-                        alt="homepage"
-                        className="mx-6 my-10 w-[95%] md:w-4/5 lg:w-3/4 xl:w-3/5 shadow"
-                    />
+                    <AppCarousel />
                 </div>
             </div>
             <div className="bg-slate-100 py-10 px-10 md:px-0" id="key_features">

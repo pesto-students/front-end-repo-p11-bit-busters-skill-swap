@@ -13,8 +13,8 @@ import { Bounce, ToastContainer, toast } from "react-toastify";
 
 const menu = [
     {
-        id: "home",
-        label: "Home",
+        id: "search",
+        label: "Search",
         link: generateUrl("dashboard"),
         icon: <MagnifyingGlass size={24} />,
     },

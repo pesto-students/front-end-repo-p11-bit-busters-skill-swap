@@ -27,8 +27,8 @@ Before running the project, ensure you have Node.js version `21.5.0` and npm ver
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/pesto-students/front-end-repo-p11-bit-busters-skill-swap.git
-cd front-end-repo-p11-bit-busters-skill-swap
+    git clone https://github.com/pesto-students/front-end-repo-p11-bit-busters-skill-swap.git
+    cd front-end-repo-p11-bit-busters-skill-swap
 ```
 
 2. Install dependencies:
@@ -47,7 +47,7 @@ Create a .env file in the root directory and populate it with the below keys:
 
 4. Start the project:
 ```
-npm run dev
+    npm run dev
 ```
 Access the project through http://localhost:5173.
 

@@ -15,9 +15,7 @@ const NavbarComponent = ({ logout, toggleSidebar, user, menu }) => {
                     className="flex items-center justify-between gap-8"
                 >
                     <Navbar.Brand className="text-xl font-medium">
-                        <Link to={generateUrl("dashboard")}>
-                            <Logo showImageLogo={true} />
-                        </Link>
+                        <Logo showImageLogo={true} />
                     </Navbar.Brand>
                     <Navbar.Divider></Navbar.Divider>
                     <Navbar.Container

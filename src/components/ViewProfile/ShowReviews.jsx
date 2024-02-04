@@ -41,15 +41,17 @@ const ShowReviews = ({ user_id, getUserReviews, reviews }) => {
                     </Typography>
                 </div>
             )}
-            <div className="m-full flex justify-center">
-                <Pagination
-                    currentPage={formData.page}
-                    onPageChange={handlePageChange}
-                    totalPages={reviews.review_pagination.total_pages}
-                    iconWithOutText
-                    prevNextShape="roundSquare"
-                />
-            </div>
+            {reviews.user_reviews.length > 0 && (
+                <div className="m-full flex justify-center">
+                    <Pagination
+                        currentPage={formData.page}
+                        onPageChange={handlePageChange}
+                        totalPages={reviews.review_pagination.total_pages}
+                        iconWithOutText
+                        prevNextShape="roundSquare"
+                    />
+                </div>
+            )}
             <Loader loading={reviews.loading} />
         </div>
     );
