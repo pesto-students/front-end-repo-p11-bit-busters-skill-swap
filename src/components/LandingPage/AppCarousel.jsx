@@ -2,6 +2,7 @@ import React from "react";
 import homePageImage from "../../assets/images/landing_page/homepage.png";
 import viewProfile from "../../assets/images/landing_page/view_profile.png";
 import editProfile from "../../assets/images/landing_page/edit_profile.png";
+import messages from "../../assets/images/landing_page/messages.png";
 import { Carousel } from "react-responsive-carousel";
 import { CaretLeft, CaretRight } from "phosphor-react";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
@@ -48,6 +49,7 @@ const AppCarousel = () => {
                 <Image src={homePageImage} />
                 <Image src={viewProfile} />
                 <Image src={editProfile} />
+                <Image src={messages} />
             </Carousel>
         </div>
     );

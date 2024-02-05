@@ -13,13 +13,18 @@ import ViewProfile from "../../pages/ViewProfile/ViewProfile";
 import Messages from "../../pages/Messages/Messages";
 import Sessions from "../../pages/Sessions/Sessions";
 import LandingPage from "../LandingPage/LandingPage";
+import Notification from "../../pages/Notification/Notification";
 
 const AppRouter = () => {
     return (
         <Router>
             <Routes>
                 <Route element={<AppLayout />}>
-                    <Route exact path={routes.landing_page} element={<LandingPage />} />
+                    <Route
+                        exact
+                        path={routes.landing_page}
+                        element={<LandingPage />}
+                    />
                 </Route>
                 <Route exact path={generateUrl("login")} element={<Login />} />
                 <Route
@@ -29,11 +34,36 @@ const AppRouter = () => {
                 />
                 <Route element={<PrivateRoute />}>
                     <Route element={<AppLayout />}>
-                        <Route exact path={routes.dashboard} element={<Search />} />
-                        <Route exact path={routes.profile} element={<EditProfile />} />
-                        <Route exact path={routes.user_profile} element={<ViewProfile />} />
-                        <Route exact path={routes.messages} element={<Messages />} />
-                        <Route exact path={routes.sessions} element={<Sessions />} />
+                        <Route
+                            exact
+                            path={routes.dashboard}
+                            element={<Search />}
+                        />
+                        <Route
+                            exact
+                            path={routes.profile}
+                            element={<EditProfile />}
+                        />
+                        <Route
+                            exact
+                            path={routes.user_profile}
+                            element={<ViewProfile />}
+                        />
+                        <Route
+                            exact
+                            path={routes.messages}
+                            element={<Messages />}
+                        />
+                        <Route
+                            exact
+                            path={routes.sessions}
+                            element={<Sessions />}
+                        />
+                        <Route
+                            exact
+                            path={routes.notifications}
+                            element={<Notification />}
+                        />
                         {/* <Route element={<IsAdmin />}></Route> */}
                     </Route>
                 </Route>

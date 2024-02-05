@@ -2,7 +2,7 @@ import { generatePath } from "react-router-dom";
 
 export const routes = {
     landing_page: "/",
-    dashboard: "/home",
+    dashboard: "/search",
     login: "/login",
     register: "/register",
     profile: "/profile",

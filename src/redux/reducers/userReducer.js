@@ -110,7 +110,6 @@ const userReducer = (state = initialState, action) => {
                 errors: {},
             };
         case GET_USER_REVIEW_SUCCESS:
-            console.log(action.payload.data.reviews);
             return {
                 ...state,
                 loading: false,

@@ -2,6 +2,7 @@ import { Button, Navbar } from "keep-react";
 import { Link } from "react-router-dom";
 import generateUrl from "../../utils/routes";
 import UserDropDown from "./UserDropDown";
+import NotificationDropDown from "./NotificationDropDown";
 
 const RightSideContent = ({ isLoggedIn, user, logout }) => {
     return (
@@ -11,6 +12,7 @@ const RightSideContent = ({ isLoggedIn, user, logout }) => {
                 isLoggedIn ? "" : "gap-5"
             }`}
         >
+            {isLoggedIn && <NotificationDropDown user={user} logout={logout} />}
             {isLoggedIn && <UserDropDown user={user} logout={logout} />}
             {!isLoggedIn && (
                 <Link to={generateUrl("login")} className="py-2.5">

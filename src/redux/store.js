@@ -4,6 +4,7 @@ import authReducer from "./reducers/authReducer";
 import userReducer from "./reducers/userReducer";
 import messageRoomReducer from "./reducers/messageRoomReducer";
 import sessionReducer from "./reducers/sessionReducer";
+import notificationReducer from "./reducers/notificationReducer";
 
 
 const rootReducer = combineReducers({
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
     users: userReducer,
     messageRoom: messageRoomReducer,
     session: sessionReducer,
+    notification: notificationReducer,
 });
 
 const store = createStore(rootReducer, applyMiddleware(thunk));

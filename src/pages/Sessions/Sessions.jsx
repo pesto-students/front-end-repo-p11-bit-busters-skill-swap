@@ -18,7 +18,7 @@ const Sessions = ({ session }) => {
                     separatorIcon={<CaretRight size={20} color="#AFBACA" />}
                 >
                     <Breadcrumb.Item>
-                        <Link to={generateUrl("dashboard")}>Sessions</Link>
+                        <Link to={generateUrl("sessions")}>Sessions</Link>
                     </Breadcrumb.Item>
                 </Breadcrumb>
             </div>

@@ -59,7 +59,7 @@ const Search = ({ searchUser, users, auth }) => {
                     separatorIcon={<CaretRight size={20} color="#AFBACA" />}
                 >
                     <Breadcrumb.Item>
-                        <Link to={generateUrl("dashboard")}>Home</Link>
+                        <Link to={generateUrl("dashboard")}>Search</Link>
                     </Breadcrumb.Item>
                 </Breadcrumb>
             </div>

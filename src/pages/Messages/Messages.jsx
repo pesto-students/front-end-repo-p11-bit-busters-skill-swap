@@ -129,7 +129,7 @@ const Messages = ({
                     separatorIcon={<CaretRight size={20} color="#AFBACA" />}
                 >
                     <Breadcrumb.Item>
-                        <Link to={generateUrl("dashboard")}>Home</Link>
+                        <Link to={generateUrl("messages")}>Messages</Link>
                     </Breadcrumb.Item>
                 </Breadcrumb>
             </div>

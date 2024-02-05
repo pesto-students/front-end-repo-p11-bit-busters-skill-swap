@@ -111,7 +111,7 @@ const ViewProfile = ({ users, getUserProfile, createRoom, messageRoom }) => {
                     separatorIcon={<CaretRight size={20} color="#AFBACA" />}
                 >
                     <Breadcrumb.Item>
-                        <Link to={generateUrl("dashboard")}>Home</Link>
+                        <Link to={generateUrl("dashboard")}>Search</Link>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item active={true}>
                         <Link

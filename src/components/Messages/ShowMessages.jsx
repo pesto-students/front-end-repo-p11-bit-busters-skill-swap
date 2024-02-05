@@ -59,10 +59,10 @@ const MessageContainer = ({ data, showAvatar, isFromAuth }) => (
     <div className={`my-4`}>
         <div
             className={`flex gap-2 ${isFromAuth ? "flex-row-reverse" : ""} ${
-                data.content_type !== "text"
-                    ? `w-5/6 lg:w-2/3 xl:w-2/3 2xl:w-1/3`
-                    : "w-fit"
-            } ${isFromAuth ? "ml-auto text-end" : ""}`}
+                data.content_type === "text"
+                    ? `max-w-[80%] lg:max-w-[66%] 2xl:max-w-[70%]`
+                    : "w-96 max-w-full"
+            } ${isFromAuth ? "ml-auto " : ""}`}
         >
             <AvatarContainer
                 showAvatar={showAvatar}
