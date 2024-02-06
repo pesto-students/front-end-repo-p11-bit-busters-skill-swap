@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Dropdown, Typography } from "keep-react";
+import { Badge, Dropdown, Typography } from "keep-react";
 import { Bell } from "phosphor-react";
 import NotificationCard from "../Notifications/NotificationCard";
 import { getNotifications } from "../../redux/actions/notifcationAction";
@@ -22,12 +22,12 @@ const NotificationDropDown = ({ notification, getNotifications }) => {
             },
             "header"
         );
-    }
+    };
 
     return (
         <>
             <Dropdown
-                label={<Bell size={30} color="#64748b" />}
+                label={<Icon count={notification?.unread_notification_count} />}
                 size="sm"
                 type="linkPrimary"
                 arrowIcon={false}
@@ -64,6 +64,17 @@ const NotificationDropDown = ({ notification, getNotifications }) => {
         </>
     );
 };
+
+const Icon = ({ count }) => (
+    <div className="relative">
+        <Bell size={30} color="#64748b" />
+        {count > 0 && (
+            <Badge size="xs" colorType="light" color="success" className="text-xs px-1.5 py-0.5 -top-1 absolute -right-1">
+                {count}
+            </Badge>
+        )}
+    </div>
+);
 
 const mapStateToProps = (state) => ({
     notification: state.notification,

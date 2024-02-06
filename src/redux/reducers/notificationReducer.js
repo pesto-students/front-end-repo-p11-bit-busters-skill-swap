@@ -15,6 +15,7 @@ const initialState = {
     header_notifications: [],
     successMessage: "",
     errors: {},
+    unread_notification_count: 0,
     pagination: {
         currentPage: 1,
         hasNextPage: false,
@@ -64,6 +65,7 @@ const notificationReducer = (state = initialState, action) => {
                 ...state,
                 loading: false,
                 header_notifications: action.payload.data.notifications,
+                unread_notification_count: action.payload.data.pagination.total_docs,
                 successMessage: action.payload.message,
                 errors: {},
             };
