@@ -16,12 +16,25 @@ export const UPDATE_USER_PROFILE_REQUEST = "UPDATE_USER_PROFILE_REQUEST";
 export const UPDATE_USER_PROFILE_SUCCESS = "UPDATE_USER_PROFILE_SUCCESS";
 export const UPDATE_USER_PROFILE_FAILURE = "UPDATE_USER_PROFILE_FAILURE";
 
-export const UPDATE_USER_PROFILE_PICTURE_REQUEST = "UPDATE_USER_PROFILE_PICTURE_REQUEST";
-export const UPDATE_USER_PROFILE_PICTURE_SUCCESS = "UPDATE_USER_PROFILE_PICTURE_SUCCESS";
-export const UPDATE_USER_PROFILE_PICTURE_FAILURE = "UPDATE_USER_PROFILE_PICTURE_FAILURE";
+export const UPDATE_USER_PROFILE_PICTURE_REQUEST =
+    "UPDATE_USER_PROFILE_PICTURE_REQUEST";
+export const UPDATE_USER_PROFILE_PICTURE_SUCCESS =
+    "UPDATE_USER_PROFILE_PICTURE_SUCCESS";
+export const UPDATE_USER_PROFILE_PICTURE_FAILURE =
+    "UPDATE_USER_PROFILE_PICTURE_FAILURE";
 
+export const RESEND_VERIFICATION_LINK_REQUEST =
+    "RESEND_VERIFICATION_LINK_REQUEST";
+export const RESEND_VERIFICATION_LINK_SUCCESS =
+    "RESEND_VERIFICATION_LINK_SUCCESS";
+export const RESEND_VERIFICATION_LINK_FAILURE =
+    "RESEND_VERIFICATION_LINK_FAILURE";
 
-export const loginUser = (data, successCallback) => {
+export const VERIFY_EMAIL_REQUEST = "VERIFY_EMAIL_REQUEST";
+export const VERIFY_EMAIL_SUCCESS = "VERIFY_EMAIL_SUCCESS";
+export const VERIFY_EMAIL_FAILURE = "VERIFY_EMAIL_FAILURE";
+
+export const loginUser = (data, successCallback, errorCallback) => {
     return async (dispatch) => {
         const url = `auth/login`;
         const actionTypes = {
@@ -36,7 +49,9 @@ export const loginUser = (data, successCallback) => {
             url,
             data,
             actionTypes,
-            successCallback
+            successCallback,
+            {},
+            errorCallback
         );
     };
 };
@@ -146,6 +161,46 @@ export const updateUserProfilePicture = (data, successCallback) => {
             actionTypes,
             successCallback,
             headers
+        );
+    };
+};
+
+export const resendVerificationLink = (data, successCallback) => {
+    return async (dispatch) => {
+        const url = `auth/resend-verification-link`;
+        const actionTypes = {
+            REQUEST: RESEND_VERIFICATION_LINK_REQUEST,
+            SUCCESS: RESEND_VERIFICATION_LINK_SUCCESS,
+            FAILURE: RESEND_VERIFICATION_LINK_FAILURE,
+        };
+
+        await apiCall(
+            dispatch,
+            "POST",
+            url,
+            data,
+            actionTypes,
+            successCallback
+        );
+    };
+};
+
+export const verifyEmail = (data, successCallback) => {
+    return async (dispatch) => {
+        const url = `auth/verify-email`;
+        const actionTypes = {
+            REQUEST: VERIFY_EMAIL_REQUEST,
+            SUCCESS: VERIFY_EMAIL_SUCCESS,
+            FAILURE: VERIFY_EMAIL_FAILURE,
+        };
+
+        await apiCall(
+            dispatch,
+            "POST",
+            url,
+            data,
+            actionTypes,
+            successCallback
         );
     };
 };

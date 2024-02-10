@@ -4,18 +4,23 @@ import { Lock } from "phosphor-react";
 import TextInputComponent from "../../components/FormElements/TextInputComponent";
 import { Link, useNavigate } from "react-router-dom";
 import generateUrl from "../../utils/routes";
-import { loginUser } from "../../redux/actions/authAction";
+import {
+    loginUser,
+    resendVerificationLink,
+} from "../../redux/actions/authAction";
 import { connect } from "react-redux";
 import Loader from "../../components/Loader/Loader";
 import Swal from "sweetalert2";
 import Logo from "../../components/Logo/Logo";
 
-const Login = ({ auth, loginUser }) => {
+const Login = ({ auth, loginUser, resendVerificationLink }) => {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         email: "",
         password: "",
     });
+    const [showResendVerificationButton, setShowResendVerificationButton] =
+        useState(false);
 
     const handleOnChange = (e) => {
         const { name, value } = e.target;
@@ -27,10 +32,25 @@ const Login = ({ auth, loginUser }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        loginUser(formData, (response) => {
-            Swal.fire("Success", response.message, "success").then(() => {
-                navigate(generateUrl("dashboard"));
-            });
+        loginUser(
+            formData,
+            (response) => {
+                Swal.fire("Success", response.message, "success").then(() => {
+                    navigate(generateUrl("dashboard"));
+                });
+            },
+            (response) => {
+                if (response?.errors?.is_verified === false) {
+                    setShowResendVerificationButton(true);
+                }
+            }
+        );
+    };
+
+    const handleResendVerification = (e) => {
+        e.preventDefault();
+        resendVerificationLink({ email: formData.email }, (response) => {
+            Swal.fire("Success", response.message, "success");
         });
     };
     return (
@@ -70,6 +90,18 @@ const Login = ({ auth, loginUser }) => {
                                 error={auth?.errors?.password?.message}
                             />
                         </div>
+                        {showResendVerificationButton && (
+                            <div className="pt-3">
+                                <Button
+                                    size="xs"
+                                    type="linkPrimary"
+                                    className="w-full"
+                                    onClick={handleResendVerification}
+                                >
+                                    Resend Verification Link
+                                </Button>
+                            </div>
+                        )}
                     </div>
                     <div className="mb-4">
                         <button type="submit" className="hidden" />
@@ -109,6 +141,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
     loginUser,
+    resendVerificationLink,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

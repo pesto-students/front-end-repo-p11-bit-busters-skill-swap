@@ -4,6 +4,7 @@ export const routes = {
     landing_page: "/",
     dashboard: "/search",
     login: "/login",
+    verify_mail: "/verify-email",
     register: "/register",
     profile: "/profile",
     user_profile: "/profile/:user_id",

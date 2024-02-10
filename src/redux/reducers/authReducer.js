@@ -14,6 +14,12 @@ import {
     UPDATE_USER_PROFILE_PICTURE_REQUEST,
     UPDATE_USER_PROFILE_PICTURE_SUCCESS,
     UPDATE_USER_PROFILE_PICTURE_FAILURE,
+    RESEND_VERIFICATION_LINK_REQUEST,
+    RESEND_VERIFICATION_LINK_SUCCESS,
+    RESEND_VERIFICATION_LINK_FAILURE,
+    VERIFY_EMAIL_REQUEST,
+    VERIFY_EMAIL_SUCCESS,
+    VERIFY_EMAIL_FAILURE,
 } from "../actions/authAction";
 
 const initialState = {
@@ -138,6 +144,48 @@ const authReducer = (state = initialState, action) => {
                 errors: {},
             };
         case UPDATE_USER_PROFILE_PICTURE_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                successMessage: "",
+                errors: action.payload.errors,
+            };
+        case RESEND_VERIFICATION_LINK_REQUEST:
+            return {
+                ...state,
+                loading: true,
+                successMessage: "",
+                errors: {},
+            };
+        case RESEND_VERIFICATION_LINK_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                successMessage: action.payload.message,
+                errors: {},
+            };
+        case RESEND_VERIFICATION_LINK_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                successMessage: "",
+                errors: action.payload.errors,
+            };
+        case VERIFY_EMAIL_REQUEST:
+            return {
+                ...state,
+                loading: true,
+                successMessage: "",
+                errors: {},
+            };
+        case VERIFY_EMAIL_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                successMessage: action.payload.message,
+                errors: {},
+            };
+        case VERIFY_EMAIL_FAILURE:
             return {
                 ...state,
                 loading: false,

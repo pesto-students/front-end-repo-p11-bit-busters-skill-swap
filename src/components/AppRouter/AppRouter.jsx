@@ -16,6 +16,7 @@ import LandingPage from "../LandingPage/LandingPage";
 import Notification from "../../pages/Notification/Notification";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import VerifyMail from "../../pages/VerifyMail/VerifyMail";
 
 const AppRouter = () => {
     useEffect(() => {
@@ -34,6 +35,7 @@ const AppRouter = () => {
                     />
                 </Route>
                 <Route exact path={generateUrl("login")} element={<Login />} />
+                <Route exact path={generateUrl("verify_mail")} element={<VerifyMail />} />
                 <Route
                     exact
                     path={generateUrl("register")}

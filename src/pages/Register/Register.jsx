@@ -31,7 +31,7 @@ const Register = ({ auth, registerUser }) => {
         e.preventDefault();
         registerUser(formData, (response) => {
             Swal.fire("Success", response.message, "success").then(() => {
-                navigate(generateUrl("dashboard"));
+                navigate(generateUrl("login"));
             });
         });
     };
