@@ -9,9 +9,9 @@ const ContactUsForm = () => {
     const emptyForm = {
         name: "",
         email: "",
-        message: ""
+        message: "",
     };
-    const [formData, setFormData] = useState({...emptyForm});
+    const [formData, setFormData] = useState({ ...emptyForm });
 
     useEffect(() => {
         if (state.succeeded) {
@@ -21,19 +21,19 @@ const ContactUsForm = () => {
                 "success"
             );
             reset();
-            setFormData({...emptyForm});
+            setFormData({ ...emptyForm });
         }
     }, [state.succeeded]);
 
     const handleValueChange = (e) => {
-        const {name, value} = e.target;
-        setFormData((prev) => ({...prev, [name]: value}));
-    }
+        const { name, value } = e.target;
+        setFormData((prev) => ({ ...prev, [name]: value }));
+    };
 
     return (
         <div>
             <form onSubmit={handleSubmit}>
-                <div className="mb-4">
+                <div className="mb-4" data-aos="fade-up" data-aos-delay="300">
                     <TextInputComponent
                         id="name"
                         label="Full Name"
@@ -49,7 +49,7 @@ const ContactUsForm = () => {
                         errors={state.errors}
                     />
                 </div>
-                <div className="mb-4">
+                <div className="mb-4" data-aos="fade-up" data-aos-delay="600">
                     <TextInputComponent
                         id="email"
                         label="Email"
@@ -65,7 +65,7 @@ const ContactUsForm = () => {
                         errors={state.errors}
                     />
                 </div>
-                <div className="mb-4">
+                <div className="mb-4" data-aos="fade-up" data-aos-delay="900">
                     <TextAreaComponent
                         label="Message"
                         placeholder="Enter your message"
@@ -87,6 +87,8 @@ const ContactUsForm = () => {
                     className="group flex h-min w-fit items-center justify-center text-center font-medium active:focus:scale-95 duration-150 
                         rounded-full text-white border border-transparent hover:bg-primary-600 active:bg-primary-600 focus:ring-4 focus:ring-primary-50 
                         disabled:bg-primary-100 disabled:hover:bg-primary-100 my-2 mx-auto py-3 px-8 bg-blue-500"
+                    data-aos="fade-up" 
+                    data-aos-delay="1200"
                 >
                     Submit
                 </button>

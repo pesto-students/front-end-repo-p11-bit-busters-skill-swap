@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import Error404 from "../Errors/Error404";
@@ -14,8 +14,15 @@ import Messages from "../../pages/Messages/Messages";
 import Sessions from "../../pages/Sessions/Sessions";
 import LandingPage from "../LandingPage/LandingPage";
 import Notification from "../../pages/Notification/Notification";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const AppRouter = () => {
+    useEffect(() => {
+        AOS.init({
+            duration: 600,
+        });
+    }, []);
     return (
         <Router>
             <Routes>

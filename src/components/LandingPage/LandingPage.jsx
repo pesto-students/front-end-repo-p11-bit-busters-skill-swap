@@ -128,13 +128,14 @@ const LandingPage = ({ getAuthUserProfile }) => {
                     <Typography
                         variant="heading-4"
                         className="text-center font-bold mb-10 leading-relaxed"
+                        data-aos="fade-up"
                     >
                         Empowering Growth Through{" "}
                         <span className="text-blue-500">
                             Sharing Knowledge.
                         </span>
                     </Typography>
-                    <div className="flex gap-6 justify-center flex-col md:flex-row items-center">
+                    <div className="flex gap-6 justify-center flex-col md:flex-row items-center" data-aos="fade-up" data-aos-delay="300">
                         <ScrollLink
                             to="key_features"
                             smooth={true}
@@ -167,7 +168,7 @@ const LandingPage = ({ getAuthUserProfile }) => {
                         </ScrollLink>
                     </div>
                 </div>
-                <div className="flex justify-center bg-header_bottom bg-bottom bg-no-repeat">
+                <div className="flex justify-center bg-header_bottom bg-bottom bg-no-repeat" data-aos="fade-up" data-aos-delay="600">
                     <AppCarousel />
                 </div>
             </div>
@@ -180,8 +181,8 @@ const LandingPage = ({ getAuthUserProfile }) => {
                         Key Features
                     </Typography>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-                        {key_features.map((feature) => (
-                            <Card className="p-6 w-full" key={feature.id}>
+                        {key_features.map((feature, index) => (
+                            <Card className="p-6 w-full" key={feature.id} data-aos="flip-left" data-aos-delay={300 * index}>
                                 <Card.Container className="flex items-start md:gap-5 gap-3.5">
                                     <Card.Container className="flex items-center justify-center rounded-full bg-metal-50 md:p-4 p-2.5">
                                         {feature.icon}
@@ -209,7 +210,7 @@ const LandingPage = ({ getAuthUserProfile }) => {
                 </div>
                 <div>
                     <div className="grid grid-cols-1 lg:grid-cols-2">
-                        <div className="px-4 lg:px-16">
+                        <div className="px-4 lg:px-16" data-aos="fade-right">
                             <Timeline
                                 timelineBarType="dashed"
                                 className="w-full lg:w-3/4 mx-auto"
@@ -234,13 +235,15 @@ const LandingPage = ({ getAuthUserProfile }) => {
                                 src={howWeWorkImage}
                                 alt="how we work"
                                 className="w-full lg:w-3/4"
+                                data-aos="fade-left"
+                                data-aos-delay="300"
                             />
                         </div>
                     </div>
                 </div>
             </div>
             <div className="bg-slate-100 py-10 px-10 md:px-0">
-                <div className="md:w-4/5 lg:w-3/4 xl:w-3/5 mx-auto">
+                <div className="md:w-4/5 lg:w-3/4 xl:w-3/5 mx-auto" data-aos="fade-up">
                     <Typography
                         variant="heading-6"
                         className="font-bold mb-10 leading-relaxed text-center"
