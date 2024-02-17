@@ -160,7 +160,7 @@ const Messages = ({
                                                 ?.participants?.[0]
                                                 ?.professional_information?.role
                                         }
-                                        link={generateUrl("profile", {
+                                        link={generateUrl("user_profile", {
                                             user_id:
                                                 messageRoom?.active_room
                                                     ?.participants?.[0]?._id,
