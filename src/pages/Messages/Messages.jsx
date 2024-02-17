@@ -148,7 +148,8 @@ const Messages = ({
                                     !room_id ? "justify-end" : "justify-between"
                                 }`}
                             >
-                                {room_id && (
+                                {room_id && messageRoom?.active_room
+                                                ?.participants?.[0] && (
                                     <UserAvatarCard
                                         cardClassNames="bg-header_background"
                                         name={
